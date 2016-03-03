@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<SokobanLevels>
+    <Level Id="1" Width="15" Height="8" Title="LevelTest" Original="1" Author="John Doe" Date="2016-01-01">
+        <L1>,,,,#####</L1>
+        <L2>,,,,#,,,#</L2>
+        <L3>,,###,,$##</L3>
+        <L4>,,#,,$,$,#</L4>
+        <L5>###,#,,#,######</L5>
+        <L6>#,@,,$,,,,....#</L6>
+        <L7>#####,,,#######</L7>
+        <L8>,,,,#####</L8>
+    </Level>
+</SokobanLevels>
