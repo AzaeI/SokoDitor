@@ -6,4 +6,9 @@ import ctrl.IElement;
  * Created by Yohan on 03/03/2016.
  */
 public class Goal implements IElement{
+    String pathToTexture;
+
+    Goal (){
+        pathToTexture = "Sprites/Goal.png";
+    }
 }

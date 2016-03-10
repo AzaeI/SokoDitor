@@ -7,5 +7,12 @@ import ctrl.IElement;
  */
 public class Box implements IElement {
 
+    String pathToTextureKO;
+    String pathToTextureOK;
+
+    Box(){
+        pathToTextureKO = "Sprites/BoxKO.png";
+        pathToTextureOK = "Sprites/BoxOK.png";
+    }
 
 }
