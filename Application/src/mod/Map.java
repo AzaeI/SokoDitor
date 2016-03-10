@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import ctrl.AElement;
 import ctrl.IElement;
 import gui.GuiCharacter;
 import org.w3c.dom.Document;
@@ -28,7 +29,7 @@ public class Map {
     private String author;
     private String date;
     private char[][] map;
-    private Object[][] mapObject;
+    private AElement[][] mapObject;
 /**
  *  # : Wall
  *  , : Floor
@@ -82,7 +83,20 @@ public class Map {
         }
 
     }
-    void PrintMap(){
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public AElement[][] getMapObject() {
+        return mapObject;
+    }
+
+    public void PrintMap(){
         for (int i = 0; i<height;i++){
             for (int j = 0; j<width;j++){
                 System.out.print(map[i][j]);
@@ -90,8 +104,8 @@ public class Map {
             System.out.println();
         }
     }
-    void CreateObjectMap(){
-        mapObject = new IElement[height][width];
+    private void CreateObjectMap(){
+        mapObject = new AElement[height][width];
         for (int i = 0; i<height;i++){
             for (int j = 0; j<width;j++){
                 switch (map[i][j]){
@@ -102,7 +116,7 @@ public class Map {
                         mapObject[i][j] = new Floor();
                         break;
                     case '@':
-                        mapObject[i][j] = new GuiCharacter.Character();
+                        mapObject[i][j] = new Character();
                         break;
                     case '.':
                         mapObject[i][j] = new Goal();

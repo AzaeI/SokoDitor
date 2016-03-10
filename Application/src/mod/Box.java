@@ -1,18 +1,20 @@
 package mod;
 
-import ctrl.IElement;
+import ctrl.AElement;
 
 /**
  * Created by Yohan on 03/03/2016.
  */
-public class Box implements IElement {
+public class Box extends AElement {
 
-    String pathToTextureKO;
-    String pathToTextureOK;
+    private String pathToTextureOK;
 
     Box(){
-        pathToTextureKO = "Sprites/BoxKO.png";
+        setPathToTexture("Sprites/BoxKO.png");
         pathToTextureOK = "Sprites/BoxOK.png";
     }
 
+    public String getPathToTextureOK() {
+        return pathToTextureOK;
+    }
 }

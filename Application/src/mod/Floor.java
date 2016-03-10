@@ -1,16 +1,14 @@
 package mod;
 
-import ctrl.IElement;
+import ctrl.AElement;
 
 /**
  * Created by Yohan on 03/03/2016.
  */
-public class Floor implements IElement{
-    String pathToTexture;
+public class Floor extends AElement{
 
     Floor(){
-        pathToTexture = "Sprites/Ground.png";
-
+        setPathToTexture("Sprites/Ground.png");
     }
 
 }
