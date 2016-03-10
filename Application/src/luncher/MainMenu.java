@@ -11,7 +11,7 @@ public class MainMenu extends JPanel {
 
     final static String text_button_play = new String("Jouer");
     final static String text_button_editor = new String("Editeur");
-    final static String text_button_login = new String("Login");
+    final static String text_button_login = new String("Se connecter");
     final static String text_button_settings = new String("Options");
 
     public MainMenu() {
@@ -34,8 +34,8 @@ public class MainMenu extends JPanel {
         for (int i = 0; i < buttons.length; i++) {
 
             //Coloration
-            buttons[i].setBackground(Color.white);
-            buttons[i].setForeground(Color.GREEN);
+            buttons[i].setBackground(Screens.soko_button_background);
+            buttons[i].setForeground(Screens.soko_foreground);
             buttons[i].setFont(Screens.font);
 
             //Grille
@@ -46,7 +46,7 @@ public class MainMenu extends JPanel {
         }
 
         //Coloration du fond du MainMenu
-        this.setBackground(Color.darkGray);
+        this.setBackground(Screens.soko_menu_background);
 
         //Connection
         this.setLayout(main_button_positionner);

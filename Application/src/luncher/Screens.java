@@ -10,14 +10,20 @@ public class Screens extends JFrame {
     final static int X_SIZE = 600;
     final static int Y_SIZE = 600;
 
-    final static Font font = new Font("Calibri", Font.BOLD, 20);
-    final static GradientPaint gp = new GradientPaint(0, 0, Color.RED, 30, 30, Color.cyan, true);
+    final static Font font = new Font("Calibri light", Font.BOLD, 20);
+
+    final static Color soko_background = Color.BLUE;
+    final static Color soko_button_background = Color.GRAY;
+    final static Color soko_font_color = Color.cyan;
+    final static Color soko_menu_background = Color.black;
+    final static Color soko_foreground = Color.white;
 
     final static JFrame mainFrame = new JFrame();
     static MainMenu mainMenu = new MainMenu();
     static Login login = new Login();
     static Settings settings = new Settings();
     static Play play = new Play();
+
 
     public Screens() {
         mainFrame.setTitle("SokoDitor");
