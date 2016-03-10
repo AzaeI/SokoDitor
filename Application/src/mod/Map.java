@@ -114,14 +114,4 @@ public class Map {
             }
         }
     }
-
-    public static void main(final String[] args) {
-        String path = "Levels/exemple.xml";
-        Map m = new Map(path);
-        m.PrintMap();
-        m.CreateObjectMap();
-    }
-
-
-
 }
