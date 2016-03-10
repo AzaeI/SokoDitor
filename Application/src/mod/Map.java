@@ -2,14 +2,13 @@ package mod;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import ctrl.IElement;
+import gui.GuiCharacter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,11 +36,11 @@ public class Map {
  *  . : Goal
  *  $ : Box
  **/
-    public Map() {
+    public Map(String path) {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             final DocumentBuilder builder = factory.newDocumentBuilder();
-            final Document document = builder.parse(new File("Levels/exemple.xml"));
+            final Document document = builder.parse(new File(path));
             final Element racine = document.getDocumentElement();
             final NodeList Level = racine.getChildNodes();
             final int nbLevel = Level.getLength();
@@ -103,7 +102,7 @@ public class Map {
                         mapObject[i][j] = new Floor();
                         break;
                     case '@':
-                        mapObject[i][j] = new Character();
+                        mapObject[i][j] = new GuiCharacter.Character();
                         break;
                     case '.':
                         mapObject[i][j] = new Goal();
@@ -113,12 +112,14 @@ public class Map {
                         break;
                 }
             }
-            System.out.println();
         }
     }
 
     public static void main(final String[] args) {
-        Map m = new Map();
+        String path = "Levels/exemple.xml";
+        Map m = new Map(path);
+        m.PrintMap();
+        m.CreateObjectMap();
     }
 
 
