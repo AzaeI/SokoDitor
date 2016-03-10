@@ -17,6 +17,7 @@ public class Screens extends JFrame {
     static MainMenu mainMenu = new MainMenu();
     static Login login = new Login();
     static Settings settings = new Settings();
+    static Play play = new Play();
 
     public Screens() {
         mainFrame.setTitle("SokoDitor");

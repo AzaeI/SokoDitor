@@ -68,6 +68,14 @@ public class MainMenu extends JPanel {
             }
         });
 
+        button_play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                itself.setVisible(false);
+                Screens.SetScreen(Screens.play);
+            }
+        });
+
         //End
         this.setVisible(true);
     }
