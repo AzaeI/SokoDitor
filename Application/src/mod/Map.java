@@ -73,7 +73,7 @@ public class Map {
                     map[j][k] = nom.charAt(k);
                 }
                 for (int k = nom.length(); k < width;k++){
-                    map[j][k] = ',';
+                    map[j][k] = ';';
                 }
             }
             CreateObjectMap();
@@ -131,6 +131,9 @@ public class Map {
                         break;
                     case '$':
                         mapObject[i][j] = new Box();
+                        break;
+                    case ';':
+                        mapObject[i][j] = new Vide();
                         break;
                 }
             }
