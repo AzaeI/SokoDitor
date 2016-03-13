@@ -16,10 +16,11 @@ public class Editor extends JPanel {
     final static String text_button_new = new String("Nouvelle Carte");
     final static String text_button_modify = new String("Modifier Carte existante");
 
+    private ArrayList<JButton> buttons = new ArrayList<JButton>();
+
 
     public Editor() {
         final Editor itself = this;
-        String[] listLevelsComponent;
         this.setLayout(new GridLayout(5,0));
 
         //Initialisation des boutons
@@ -34,13 +35,35 @@ public class Editor extends JPanel {
                 Screens.SetScreen(Screens.mainMenu);
             }
         });
+        button_new.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+                itself.setVisible(false);
+                Screens.SetScreen(Screens.mainMenu);
+            }
+        });
 
         //Tableau contenant tout les boutons
-        ArrayList<JButton> buttons = new ArrayList<JButton>();
         buttons.add(button_back);
         buttons.add(button_new);
         buttons.add(button_modify);
 
+
+
+
+        initColor();
+
+        //Ajout des boutons du fond du panel
+        for(int i = 0; i < buttons.size();i++){
+            this.add(buttons.get(i));
+        }
+
+        //End
+        this.setVisible(true);
+    }
+
+    private void initColor(){
         //Coloration des boutons
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setBackground(Screens.soko_button_background);
@@ -50,13 +73,5 @@ public class Editor extends JPanel {
 
         //Coloration du fond du panel
         this.setBackground(Screens.soko_menu_background);
-
-        //Ajout des boutons du fond du panel
-        for(int i = 0; i < buttons.size();i++){
-            this.add(buttons.get(i));
-        }
-
-        //End
-        this.setVisible(true);
     }
 }

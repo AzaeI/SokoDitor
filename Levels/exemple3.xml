@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <SokobanLevels>
-    <Level Id="3" Width="8" Height="9" Title="LevelTest" Original="1" Author="John Doe" Date="2016-01-01">
+    <Level Id="3" Width="9" Height="9" Title="LevelTest" Original="1" Author="John Doe" Date="2016-01-01">
         <L1>;#####</L1>
         <L2>;#,,,####</L2>
         <L3>;#,,,#,,#</L3>

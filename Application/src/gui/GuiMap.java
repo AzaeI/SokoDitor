@@ -25,6 +25,7 @@ public class GuiMap extends JFrame{
     private final GuiMap itself = this;
 
     private static boolean isaMapOpen = false;
+    private int resolution = 64;
 
     public GuiMap(String path){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -40,8 +41,6 @@ public class GuiMap extends JFrame{
             //System.out.println("Levels/"+path+".xml Open");
             Hauteur = map.getHeight();
             Largeur = map.getWidth();
-            int resolution = 64;
-            int Taille = Math.max(Hauteur,Largeur);
 
             ObjectMap = map.getMapObject();
 
@@ -64,5 +63,9 @@ public class GuiMap extends JFrame{
             showMessageDialog(null, "Vous ne pouvez pas lancer deux parties en même temps !");
         }
 
+    }
+
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
     }
 }
