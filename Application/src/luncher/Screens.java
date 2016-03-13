@@ -23,6 +23,7 @@ public class Screens extends JFrame {
     static Login login = new Login();
     static Settings settings = new Settings();
     static Play play = new Play();
+    static Editor editor = new Editor();
 
 
     public Screens() {

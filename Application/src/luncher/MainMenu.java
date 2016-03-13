@@ -75,6 +75,13 @@ public class MainMenu extends JPanel {
                 Screens.SetScreen(Screens.play);
             }
         });
+        button_editor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                itself.setVisible(false);
+                Screens.SetScreen(Screens.editor);
+            }
+        });
 
         //End
         this.setVisible(true);
