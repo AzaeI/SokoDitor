@@ -1,13 +1,11 @@
 package luncher;
 
-import gui.GuiMap;
+import gui.GuiEditor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Editor extends JPanel {
@@ -38,9 +36,9 @@ public class Editor extends JPanel {
         button_new.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
                 itself.setVisible(false);
                 Screens.SetScreen(Screens.mainMenu);
+                GuiEditor e = new GuiEditor();
             }
         });
 
@@ -48,9 +46,6 @@ public class Editor extends JPanel {
         buttons.add(button_back);
         buttons.add(button_new);
         buttons.add(button_modify);
-
-
-
 
         initColor();
 
