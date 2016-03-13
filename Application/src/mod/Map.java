@@ -78,9 +78,17 @@ public class Map {
             }
             CreateObjectMap();
         }
-        catch (final ParserConfigurationException | SAXException | IOException e) {
+        catch (final ParserConfigurationException e) {
             e.printStackTrace();
         }
+        catch (final SAXException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 

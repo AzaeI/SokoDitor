@@ -11,6 +11,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 /**
  * Created by Yohan on 03/03/2016.
  */
@@ -59,7 +61,7 @@ public class GuiMap extends JFrame{
             setSize(new Dimension(resolution*Largeur,resolution*Hauteur));
             setVisible(true);
         }else {
-            System.out.println("not allowed");
+            showMessageDialog(null, "Vous ne pouvez pas lancer deux parties en même temps !");
         }
 
     }

@@ -14,6 +14,7 @@ public class Play extends JPanel {
 
     final static String text_button_back = new String("Retourner en arriere");
     final static File LevelsList = new File("Levels");
+    private String name;
 
 
     public Play() {
@@ -40,7 +41,7 @@ public class Play extends JPanel {
         listLevelsComponent = LevelsList.list();
         for(int i = 0; i < listLevelsComponent.length;i++) {
             if (listLevelsComponent[i].endsWith(".xml") == true) {
-                String name = listLevelsComponent[i].substring(0, listLevelsComponent[i].length() - 4);
+                name = listLevelsComponent[i].substring(0, listLevelsComponent[i].length() - 4);
                 buttons.add(new JButton(name));
                 buttons.get(i+1).addActionListener(new ActionListener() {
                     @Override
