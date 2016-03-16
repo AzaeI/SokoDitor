@@ -38,7 +38,6 @@ public class GuiMap extends JFrame{
         if(!isaMapOpen){
             isaMapOpen = true;
             map = new Map("Levels/"+path+".xml");
-            //System.out.println("Levels/"+path+".xml Open");
             Hauteur = map.getHeight();
             Largeur = map.getWidth();
 
