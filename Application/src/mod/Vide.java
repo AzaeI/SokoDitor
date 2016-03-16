@@ -7,7 +7,7 @@ import ctrl.AElement;
  */
 public class Vide extends AElement{
 
-    Vide (){
+    public Vide (){
         setPathToTexture("Sprites/Vide.png");
     }
 }

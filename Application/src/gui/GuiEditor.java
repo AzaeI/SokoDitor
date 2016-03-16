@@ -1,6 +1,8 @@
 package gui;
 
-import luncher.Screens;
+import ctrl.AElement;
+import mod.ButtonEdit;
+import mod.Vide;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -9,10 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 
+import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.showMessageDialog;
+import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
 /**
  * Created by lab on 13/03/16.
@@ -20,25 +22,34 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class GuiEditor  extends JFrame{
 
     private static boolean isaEditorOpen = false;
+
+    private JMenuBar menuBar = new JMenuBar();
+    private JMenuItem help = new JMenuItem("Aide");
+
     private JPanel mainEditPannel = new JPanel();
     private JPanel mapEditPannel = new JPanel();
     private JPanel Paramedit = new JPanel();
     private JPanel spritesPannel = new JPanel();
+
     private JLabel nomMap = new JLabel("Nom de la carte : ",SwingConstants.RIGHT);
     private JLabel hauteurMap = new JLabel("Hauteur : ",SwingConstants.RIGHT);
     private JLabel largeurMap = new JLabel("Largeur : ",SwingConstants.RIGHT);
+
     private JTextField textFieldNomMap = new JTextField(15);
     private JTextField textFieldHauteurmap = new JTextField(15);
     private JTextField textFieldLargeurmap = new JTextField(15);
-    //private JButton buttonhauteurMap = new JButton("Appliquer");
-    //private JButton buttonLargeurMap = new JButton("Appliquer");
+
     private JButton buttonGenerer = new JButton("Générer Carte");
 
     final static String nameSpriteEdit = "Sprites/SpritEdit";
     final static File ListSpritEdit = new File(nameSpriteEdit);
+
+    private ButtonEdit[][] mapGenerate;
+
     private String[] listSprite;
 
-    private int resolution = 64;
+    private int hauteur = 5;
+    private int largeur = 5;
 
     public GuiEditor(){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -50,7 +61,6 @@ public class GuiEditor  extends JFrame{
         });
         if (!isaEditorOpen){
             isaEditorOpen = true;
-            setResizable(false);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int height = (int) screenSize.getHeight();
             int width = (int) screenSize.getWidth();
@@ -62,37 +72,43 @@ public class GuiEditor  extends JFrame{
 
             mainEditPannel.setPreferredSize(new Dimension((parrentWidth/4)+28,parrentHeight));
             mainEditPannel.setBackground(Color.yellow);
-            //mapEditPannel.setPreferredSize(new Dimension((parrentWidth*3)/4,parrentHeight));
+//            mapEditPannel.setPreferredSize(new Dimension((parrentWidth*3)/4,parrentHeight));
             mapEditPannel.setBackground(Color.blue);
 
             this.add(BorderLayout.LINE_START,mainEditPannel);
             this.add(BorderLayout.CENTER,mapEditPannel);
 
-            //PARAM
-            int parrentPannelHeight = parrentHeight;
-            int parrentPannelWidth = parrentWidth;
+
+            /*          PARAM           */
+//            int parrentPannelHeight = parrentHeight;
+//            int parrentPannelWidth = parrentWidth;
 
             mainEditPannel.setLayout(new BorderLayout());
-            //Paramedit.setPreferredSize(new Dimension(parrentPannelWidth,parrentPannelHeight/4));
+//            Paramedit.setPreferredSize(new Dimension(parrentPannelWidth,parrentPannelHeight/4));
             Paramedit.setBackground(Color.CYAN);
-//            Paramedit.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.black));
+            Paramedit.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.black));
 
             mainEditPannel.add(BorderLayout.LINE_START,Paramedit);
 
-            initActionListenner();
             initPannelEditionParama();
 
-            //SPRITES
-            spritesPannel.setPreferredSize(new Dimension(parrentPannelWidth,(parrentHeight*3)/4));
+            /*          SPRITES           */
+//            spritesPannel.setPreferredSize(new Dimension(parrentPannelWidth,(parrentPannelHeight*3)/4));
             spritesPannel.setBackground(Color.red);
             spritesPannel.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.black));
             listSprite = ListSpritEdit.list();
-            System.out.println(listSprite.length);
             spritesPannel.setLayout(new GridLayout(listSprite.length,2));
 
             initSprites(); //get name Sprites
             mainEditPannel.add(BorderLayout.PAGE_END,spritesPannel);
 
+            /*          GRILLE          */
+            initGrille();
+            initActionListenner();
+
+            menuBar.add(help);
+            setJMenuBar(menuBar);
+            setResizable(false);
             setVisible(true);
         }else{
             showMessageDialog(null, "Vous ne pouvez pas Editer 2 map en même temps !");
@@ -102,19 +118,37 @@ public class GuiEditor  extends JFrame{
         textFieldHauteurmap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                String test = textFieldHauteurmap.getText();
+                if (isNumber(test)){
+                    hauteur = parseInt(test);
+                    updateGrille();
+                }else{
+                    showMessageDialog(null, "Veuillez entrer un nombre !");
+                }
             }
         });
         textFieldLargeurmap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                String test = textFieldHauteurmap.getText();
+                if (isNumber(test)){
+                    largeur = parseInt(test);
+                    updateGrille();
+                }else{
+                    showMessageDialog(null, "Veuillez entrer un nombre !");
+                }
             }
         });
         buttonGenerer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
+            }
+        });
+        help.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GuiHelp g = new GuiHelp();
             }
         });
     }
@@ -149,19 +183,41 @@ public class GuiEditor  extends JFrame{
             if (listSprite[i].endsWith(".png") == true) {
                 String name = listSprite[i].substring(0, listSprite[i].length() - 4);
                 ImageIcon img = new ImageIcon(nameSpriteEdit+"/"+name+".png");
-                JButton b = new JButton();
-                b.setIcon(img);
-//                b.setSize(new Dimension(resolution,resolution));
-//                JPanel a = new JPanel();
-//                a.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.black));
-//                a.add(b);
-                spritesPannel.add(b);
-//                JPanel c = new JPanel();
-//                c.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.black));
-//                c.add(new JLabel(name));
-                spritesPannel.add(new JLabel(name));
+                JLabel d = new JLabel();
+                d.setIcon(img);
+                JPanel a = new JPanel();
+                a.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.black));
+                a.add(d);
+                spritesPannel.add(a);
+                JPanel c = new JPanel();
+                c.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.black));
+                c.add(new JLabel(name));
+                spritesPannel.add(c);
             }
         }
     }
-
+    private void initGrille(){
+        mapEditPannel.setLayout(new GridLayout(5,5));
+        mapGenerate = new ButtonEdit[5][5];
+        for (int i = 0; i < 5;i++){ // Parcours longeur
+            for (int j = 0; j < 5; j++){ // Parcours Largeur
+                AElement v = new Vide();
+                mapGenerate[i][j] = new ButtonEdit(v,j,i);
+                mapEditPannel.add(mapGenerate[i][j]);
+            }
+        }
+    }
+    private void updateGrille(){
+        mapEditPannel.setLayout(null);
+        mapEditPannel.setLayout(new GridLayout(hauteur,largeur));
+        mapGenerate = null;
+        mapGenerate = new ButtonEdit[hauteur][largeur];
+        for (int i = 0; i < hauteur;i++){ // Parcours longeur
+            for (int j = 0; j < largeur; j++){ // Parcours largeur
+                AElement v = new Vide();
+                mapGenerate[i][j] = new ButtonEdit(v,j,i);
+                mapEditPannel.add(mapGenerate[i][j]);
+            }
+        }
+    }
 }
