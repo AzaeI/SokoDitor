@@ -5,7 +5,6 @@ import mod.ButtonEdit;
 import mod.Vide;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -54,6 +53,9 @@ public class GuiEditor  extends JFrame{
     private int largeur = 5;
 
     private GridLayout grid = new GridLayout(hauteur,largeur);
+    private ActionListener listennerChoiceElemt;
+
+    private GuiEditor itself;
 
     public GuiEditor(){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -64,6 +66,7 @@ public class GuiEditor  extends JFrame{
             }
         });
         if (!isaEditorOpen){
+            itself = this;
             isaEditorOpen = true;
             setResizable(false);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -71,6 +74,7 @@ public class GuiEditor  extends JFrame{
             int width = (int) screenSize.getWidth();
             setSize(new Dimension((width*4)/5,(height*4)/5));
             setLayout(new BorderLayout());
+            setLocation(width/6,height/10);
 
             int parrentHeight = (height*4)/5;
             int parrentWidth  = (width*4)/5;
@@ -108,8 +112,8 @@ public class GuiEditor  extends JFrame{
             mainEditPannel.add(BorderLayout.PAGE_END,spritesPannel);
 
             /*          GRILLE          */
-            initGrille(); //init
             initActionListenner();
+            initGrille(); //init
 
             menuBar.add(help);
             setJMenuBar(menuBar);
@@ -153,6 +157,12 @@ public class GuiEditor  extends JFrame{
 
             }
         });
+        listennerChoiceElemt = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GuiChoiceElmt g = new GuiChoiceElmt(itself);
+            }
+        };
         help.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -209,11 +219,11 @@ public class GuiEditor  extends JFrame{
         grid = new GridLayout(hauteur,largeur);
         mapEditPannel.setLayout(grid);
         mapGenerate = new ButtonEdit[hauteur][largeur];
-        getInfo();
         for (int i = 0; i < hauteur;i++){
             for (int j = 0; j < largeur; j++){
                 AElement v = new Vide();
                 mapGenerate[i][j] = new ButtonEdit(v);
+                mapGenerate[i][j].addActionListener(listennerChoiceElemt);
                 mapEditPannel.add(mapGenerate[i][j]);
             }
         }
@@ -222,27 +232,24 @@ public class GuiEditor  extends JFrame{
         grid.setColumns(largeur);
         grid.setRows(hauteur);
         mapGenerate = new ButtonEdit[hauteur][largeur];
-        getInfo();
         mapEditPannel.removeAll();
-
         for (int i = 0; i < hauteur;i++){
             for (int j = 0; j < largeur; j++){
                 AElement v = new Vide();
                 mapGenerate[i][j] = new ButtonEdit(v);
+                mapGenerate[i][j].addActionListener(listennerChoiceElemt);
                 mapEditPannel.add(mapGenerate[i][j]);
             }
         }
         mapEditPannel.updateUI();
     }
     private void getInfo(){
-        System.out.println();
-        System.out.println("hauteur : " + hauteur);
-        System.out.println("Largeur : " + largeur);
-        System.out.println();
-        System.out.println("hauteur grid : " + grid.getRows());
-        System.out.println("largeur grid : " + grid.getColumns());
-
-
+//        System.out.println();
+//        System.out.println("hauteur : " + hauteur);
+//        System.out.println("Largeur : " + largeur);
+//        System.out.println();
+//        System.out.println("hauteur grid : " + grid.getRows());
+//        System.out.println("largeur grid : " + grid.getColumns());
 
 //        for (int i = 0; i < mapGenerate.length;i++){
 //            for (int j = 0; j < mapGenerate[i].length;j++){
@@ -252,5 +259,12 @@ public class GuiEditor  extends JFrame{
 //        }
 //        System.out.println();
 //        System.out.println();
+    }
+
+    public ArrayList<String> getNameSprite() {
+        return nameSprite;
+    }
+    public String getNameSpriteEdit() {
+        return nameSpriteEdit;
     }
 }
