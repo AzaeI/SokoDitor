@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
  */
 public class Input implements KeyListener {
 
+    public enum State{LEFT,DOWN,RIGHT,UP}
+
     @Override public void keyTyped(KeyEvent event) {}
     @Override public void keyPressed(KeyEvent event){
         switch (event.getKeyCode()){

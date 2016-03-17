@@ -139,4 +139,8 @@ public class Map {
             }
         }
     }
+
+    public char[][] getMap(){
+        return map;
+    }
 }
