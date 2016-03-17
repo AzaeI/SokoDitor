@@ -4,14 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Settings extends JPanel {
 
-
+    //Boite de dialogue de recuperation de ficher
+    JFileChooser dialogue = new JFileChooser();
 
     // récuperation du this
     JPanel itself = this;
-
 
     //Espace entre les boutons
     final static int SPACE_BETWEEN = 1;
@@ -136,40 +137,48 @@ public class Settings extends JPanel {
             }
         });
 
+        //Textures
+
         button_change_chara.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_wall.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_box.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_box_final.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_final.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_ground.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
 
@@ -230,5 +239,11 @@ public class Settings extends JPanel {
         box.setEnabled(false);
         box.setForeground(Screens.soko_menu_background);
         box.setBackground(Screens.soko_menu_background);
+    }
+
+    File get_file(){
+        dialogue.showOpenDialog(null);
+        System.out.println("Fichier choisi : " + dialogue.getSelectedFile());
+        return dialogue.getSelectedFile();
     }
 }
