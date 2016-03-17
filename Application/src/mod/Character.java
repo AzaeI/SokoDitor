@@ -7,7 +7,7 @@ import ctrl.AElement;
  */
 public class Character extends AElement {
 
-    Character(){
+    public Character(){
         setPathToTexture("Sprites/Chara.png");
     }
 }

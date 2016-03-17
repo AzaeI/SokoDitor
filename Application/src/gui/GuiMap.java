@@ -2,6 +2,7 @@ package gui;
 
 import ctrl.AElement;
 import mod.Map;
+import util.Input;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,6 +29,8 @@ public class GuiMap extends JFrame{
     private int resolution = 64;
 
     public GuiMap(String path){
+        addKeyListener(new Input());
+
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
