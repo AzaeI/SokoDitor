@@ -165,17 +165,17 @@ public class GuiEditor  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Future f = THREAD_POOL.submit(new GuiChoiceElmt(itself));
-                try {
-                    ((ButtonEdit)e.getSource()).setElmt((AElement) f.get(30, TimeUnit.SECONDS));
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                } catch (ExecutionException e1) {
-                    e1.printStackTrace();
-                } catch (TimeoutException e1) {
-                    e1.printStackTrace();
-                }
-                ((ButtonEdit)e.getSource()).updateTexture();
+//                Future f = THREAD_POOL.submit(new GuiChoiceElmt(itself));
+//                try {
+//                    ((ButtonEdit)e.getSource()).setElmt((AElement) f.get(30, TimeUnit.SECONDS));
+//                } catch (InterruptedException e1) {
+//                    e1.printStackTrace();
+//                } catch (ExecutionException e1) {
+//                    e1.printStackTrace();
+//                } catch (TimeoutException e1) {
+//                    e1.printStackTrace();
+//                }
+//                ((ButtonEdit)e.getSource()).updateTexture();
             }
         };
         help.addActionListener(new ActionListener() {
