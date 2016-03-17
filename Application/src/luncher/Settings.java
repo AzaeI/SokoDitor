@@ -4,30 +4,51 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Settings extends JPanel {
 
+    //Boite de dialogue de recuperation de ficher
+    JFileChooser dialogue = new JFileChooser();
+
+    // récuperation du this
+    JPanel itself = this;
+
     //Espace entre les boutons
-    final static int SPACE_BETWEEN = 10;
+    final static int SPACE_BETWEEN = 1;
+
+    // Initialisations des textes utilisés
+
+    final static String text_button_tab_textures = new String("Choisir les textures");
+    final static String text_button_tab_sound = new String("Changer les options sonores");
+    final static String text_button_tab_user = new String("Modifier son compte utilisateur");
 
     final static String text_button_back = new String("Retourner en arriere");
     final static String text_button_default = new String("Remmetre les valeurs par defaut");
 
-    final static String text_button_sound = new String("Desactiver le son : ");
+    final static String text_button_sound = new String("Desactiver le son");
 
-    final static String text_button_change_chara = new String("Changer de personage : ");
-    final static String text_button_change_wall = new String("Changer la texture des murs : ");
-    final static String text_button_change_box = new String("Changer la texture des caisses : ");
-    final static String text_button_change_box_final = new String("Changer la texture des caisses en place : ");
-    final static String text_button_change_final = new String("Changer la texture des emplacements pour caisses : ");
-    final static String text_button_change_ground = new String("Changer la texture du sol : ");
+    final static String text_button_change_chara = new String("Changer de personage");
+    final static String text_button_change_wall = new String("Changer la texture des murs");
+    final static String text_button_change_box = new String("Changer la texture des caisses");
+    final static String text_button_change_box_final = new String("Changer la texture des caisses en place");
+    final static String text_button_change_final = new String("Changer la texture des emplacements pour caisses");
+    final static String text_button_change_ground = new String("Changer la texture du sol");
 
     final static String text_button_new_mdp = new String("Changer de mot de passe : ");
 
     public Settings() {
+
         final Settings itself = this;
 
+        //Initialisation des onglets
+
+        JButton button_tab_textures = new JButton(text_button_tab_textures);
+        JButton button_tab_sound = new JButton(text_button_tab_sound);
+        JButton button_tab_user = new JButton(text_button_tab_user);
+
         //Initialisation des boutons
+
         JButton button_back = new JButton(text_button_back);
         JButton button_default = new JButton(text_button_default);
 
@@ -42,7 +63,31 @@ public class Settings extends JPanel {
 
         JButton button_new_mdp = new JButton(text_button_new_mdp);
 
+        // Space
+        JCheckBox space1 = new JCheckBox();
+        JCheckBox space2 = new JCheckBox();
+        set_invisible(space1);
+        set_invisible(space2);
+
+
+        //Tableaux
+        JButton buttons[] = {button_back, button_default, button_tab_sound, button_tab_textures, button_tab_user, button_sound, button_change_chara, button_change_wall, button_change_box, button_change_box_final, button_change_final, button_change_ground, button_new_mdp};
+
+        final JButton tab_north[] = {button_back, button_default};
+        final JButton tab_center[] = {button_tab_sound, button_tab_textures, button_tab_user};
+
+        final JButton tab_sound[] = {button_sound};
+        final JButton tab_textures[] = {button_change_box, button_change_box_final, button_change_chara, button_change_final, button_change_ground, button_change_wall};
+        final JButton tab_user[] = {button_new_mdp};
+
+        int maximum_options = 0;
+        if (tab_sound.length > tab_textures.length) maximum_options = tab_sound.length;
+        if (tab_textures.length > tab_user.length) maximum_options = tab_sound.length;
+        if (tab_user.length > tab_sound.length) maximum_options = tab_sound.length;
+        maximum_options = maximum_options + tab_north.length + tab_center.length;
+
         //Actions des boutons
+
         button_back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,6 +95,34 @@ public class Settings extends JPanel {
                 Screens.SetScreen(Screens.mainMenu);
             }
         });
+
+        button_tab_sound.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                display_options(tab_sound, true);
+                display_options(tab_textures, false);
+                display_options(tab_user, false);
+            }
+        });
+
+        button_tab_textures.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                display_options(tab_sound, false);
+                display_options(tab_textures, true);
+                display_options(tab_user, false);
+            }
+        });
+
+        button_tab_user.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                display_options(tab_sound, false);
+                display_options(tab_textures, false);
+                display_options(tab_user, true);
+            }
+        });
+
         button_default.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,40 +137,48 @@ public class Settings extends JPanel {
             }
         });
 
+        //Textures
+
         button_change_chara.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_wall.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_box.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_box_final.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_final.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
         button_change_ground.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                get_file();
+                // put the return somewhere usefull
             }
         });
 
@@ -108,29 +189,61 @@ public class Settings extends JPanel {
             }
         });
 
-        //Tableau contenant tout les boutons
-        JButton buttons[] = {button_back, button_default, button_sound, button_change_chara, button_change_wall, button_change_box, button_change_box_final, button_change_final, button_change_ground, button_new_mdp};
-
-        //Positionneur
-        GridLayout main_button_positionner = new GridLayout(buttons.length, 1, SPACE_BETWEEN, SPACE_BETWEEN);
+        // On cache les buttons dans les onglets
+        display_options(tab_sound, false);
+        display_options(tab_textures, false);
+        display_options(tab_user, false);
 
         //Coloration des boutons
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setBackground(Screens.soko_background);
+            buttons[i].setBackground(Screens.soko_button_background);
             buttons[i].setForeground(Screens.soko_foreground);
             buttons[i].setFont(Screens.font);
-            main_button_positionner.addLayoutComponent("", buttons[i]);
-            this.add(buttons[i]);
-
         }
 
-        //Connection
-        this.setLayout(main_button_positionner);
-
+        //Ajout et positionnement des boutons
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        add_multiple(tab_north);
+        add(space1);
+        add_multiple(tab_center);
+        add(space2);
+        add_multiple(tab_sound);
+        add_multiple(tab_textures);
+        add_multiple(tab_user);
         //Coloration du fond du panel
         this.setBackground(Screens.soko_menu_background);
 
+        //Coloration des boutons de catégories
+        button_tab_sound.setBackground(Screens.soko_background);
+        button_tab_textures.setBackground(Screens.soko_background);
+        button_tab_user.setBackground(Screens.soko_background);
+
         //End
         this.setVisible(true);
+    }
+
+    void display_options(JButton[] options, boolean display) {
+        for (int i = 0; i < options.length; i++) {
+            options[i].setVisible(display);
+            itself.setVisible(true);
+        }
+    }
+
+    void add_multiple(JButton[] options) {
+        for (int i = 0; i < options.length; i++) {
+            this.add(options[i]);
+        }
+    }
+
+    void set_invisible(JCheckBox box){
+        box.setEnabled(false);
+        box.setForeground(Screens.soko_menu_background);
+        box.setBackground(Screens.soko_menu_background);
+    }
+
+    File get_file(){
+        dialogue.showOpenDialog(null);
+        System.out.println("Fichier choisi : " + dialogue.getSelectedFile());
+        return dialogue.getSelectedFile();
     }
 }
