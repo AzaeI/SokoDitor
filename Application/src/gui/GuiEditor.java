@@ -213,7 +213,7 @@ public class GuiEditor  extends JFrame{
         for (int i = 0; i < hauteur;i++){
             for (int j = 0; j < largeur; j++){
                 AElement v = new Vide();
-                mapGenerate[i][j] = new ButtonEdit(v,j,i);
+                mapGenerate[i][j] = new ButtonEdit(v);
                 mapEditPannel.add(mapGenerate[i][j]);
             }
         }
@@ -228,7 +228,7 @@ public class GuiEditor  extends JFrame{
         for (int i = 0; i < hauteur;i++){
             for (int j = 0; j < largeur; j++){
                 AElement v = new Vide();
-                mapGenerate[i][j] = new ButtonEdit(v,j,i);
+                mapGenerate[i][j] = new ButtonEdit(v);
                 mapEditPannel.add(mapGenerate[i][j]);
             }
         }
