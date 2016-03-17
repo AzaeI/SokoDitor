@@ -1,15 +1,17 @@
 package luncher;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+
 public class Settings extends JPanel {
 
-    //Boite de dialogue de recuperation de ficher
-    JFileChooser dialogue = new JFileChooser();
+
+    //Boite de fileChooser de recuperation de ficher et son/ses filtre(s)
+    JFileChooser fileChooser = new JFileChooser();
+    MonFiltre filterPNG = new MonFiltre(new String[]{"png"},"les fichiers PNG (*.png)");
 
     // récuperation du this
     JPanel itself = this;
@@ -38,6 +40,9 @@ public class Settings extends JPanel {
     final static String text_button_new_mdp = new String("Changer de mot de passe : ");
 
     public Settings() {
+
+        fileChooser.removeChoosableFileFilter(fileChooser.getAcceptAllFileFilter());
+        fileChooser.addChoosableFileFilter(filterPNG);
 
         final Settings itself = this;
 
@@ -142,7 +147,7 @@ public class Settings extends JPanel {
         button_change_chara.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                get_file();
+                File lol = get_file();
                 // put the return somewhere usefull
             }
         });
@@ -242,8 +247,8 @@ public class Settings extends JPanel {
     }
 
     File get_file(){
-        dialogue.showOpenDialog(null);
-        System.out.println("Fichier choisi : " + dialogue.getSelectedFile());
-        return dialogue.getSelectedFile();
+        fileChooser.showOpenDialog(null);
+        System.out.println("Fichier choisi : " + fileChooser.getSelectedFile());
+        return fileChooser.getSelectedFile();
     }
 }
