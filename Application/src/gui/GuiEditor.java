@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -47,9 +48,12 @@ public class GuiEditor  extends JFrame{
     private ButtonEdit[][] mapGenerate;
 
     private String[] listSprite;
+    private ArrayList<String> nameSprite = new ArrayList<>();
 
     private int hauteur = 5;
     private int largeur = 5;
+
+    private GridLayout grid = new GridLayout(hauteur,largeur);
 
     public GuiEditor(){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -61,6 +65,7 @@ public class GuiEditor  extends JFrame{
         });
         if (!isaEditorOpen){
             isaEditorOpen = true;
+            setResizable(false);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int height = (int) screenSize.getHeight();
             int width = (int) screenSize.getWidth();
@@ -103,12 +108,11 @@ public class GuiEditor  extends JFrame{
             mainEditPannel.add(BorderLayout.PAGE_END,spritesPannel);
 
             /*          GRILLE          */
-            initGrille();
+            initGrille(); //init
             initActionListenner();
 
             menuBar.add(help);
             setJMenuBar(menuBar);
-            setResizable(false);
             setVisible(true);
         }else{
             showMessageDialog(null, "Vous ne pouvez pas Editer 2 map en même temps !");
@@ -121,7 +125,8 @@ public class GuiEditor  extends JFrame{
                 String test = textFieldHauteurmap.getText();
                 if (isNumber(test)){
                     hauteur = parseInt(test);
-                    updateGrille();
+                    if (hauteur > 25) showMessageDialog(null, "Veuillez entrer un nombre < 25");
+                    else updateGrille();
                 }else{
                     showMessageDialog(null, "Veuillez entrer un nombre !");
                 }
@@ -130,10 +135,13 @@ public class GuiEditor  extends JFrame{
         textFieldLargeurmap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                String test = textFieldHauteurmap.getText();
+                String test = textFieldLargeurmap.getText();
                 if (isNumber(test)){
                     largeur = parseInt(test);
-                    updateGrille();
+                    if (largeur > 25) showMessageDialog(null, "Veuillez entrer un nombre < 25");
+                    else{
+                        updateGrille();
+                    }
                 }else{
                     showMessageDialog(null, "Veuillez entrer un nombre !");
                 }
@@ -184,6 +192,7 @@ public class GuiEditor  extends JFrame{
                 String name = listSprite[i].substring(0, listSprite[i].length() - 4);
                 ImageIcon img = new ImageIcon(nameSpriteEdit+"/"+name+".png");
                 JLabel d = new JLabel();
+                nameSprite.add(name);
                 d.setIcon(img);
                 JPanel a = new JPanel();
                 a.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.black));
@@ -197,10 +206,12 @@ public class GuiEditor  extends JFrame{
         }
     }
     private void initGrille(){
-        mapEditPannel.setLayout(new GridLayout(5,5));
-        mapGenerate = new ButtonEdit[5][5];
-        for (int i = 0; i < 5;i++){ // Parcours longeur
-            for (int j = 0; j < 5; j++){ // Parcours Largeur
+        grid = new GridLayout(hauteur,largeur);
+        mapEditPannel.setLayout(grid);
+        mapGenerate = new ButtonEdit[hauteur][largeur];
+        getInfo();
+        for (int i = 0; i < hauteur;i++){
+            for (int j = 0; j < largeur; j++){
                 AElement v = new Vide();
                 mapGenerate[i][j] = new ButtonEdit(v,j,i);
                 mapEditPannel.add(mapGenerate[i][j]);
@@ -208,16 +219,38 @@ public class GuiEditor  extends JFrame{
         }
     }
     private void updateGrille(){
-        mapEditPannel.setLayout(null);
-        mapEditPannel.setLayout(new GridLayout(hauteur,largeur));
-        mapGenerate = null;
+        grid.setColumns(largeur);
+        grid.setRows(hauteur);
         mapGenerate = new ButtonEdit[hauteur][largeur];
-        for (int i = 0; i < hauteur;i++){ // Parcours longeur
-            for (int j = 0; j < largeur; j++){ // Parcours largeur
+        getInfo();
+        mapEditPannel.removeAll();
+
+        for (int i = 0; i < hauteur;i++){
+            for (int j = 0; j < largeur; j++){
                 AElement v = new Vide();
                 mapGenerate[i][j] = new ButtonEdit(v,j,i);
                 mapEditPannel.add(mapGenerate[i][j]);
             }
         }
+        mapEditPannel.updateUI();
+    }
+    private void getInfo(){
+        System.out.println();
+        System.out.println("hauteur : " + hauteur);
+        System.out.println("Largeur : " + largeur);
+        System.out.println();
+        System.out.println("hauteur grid : " + grid.getRows());
+        System.out.println("largeur grid : " + grid.getColumns());
+
+
+
+//        for (int i = 0; i < mapGenerate.length;i++){
+//            for (int j = 0; j < mapGenerate[i].length;j++){
+//                System.out.print(j+".");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
+//        System.out.println();
     }
 }
