@@ -11,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -154,13 +158,24 @@ public class GuiEditor  extends JFrame{
         buttonGenerer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                //TODO
             }
         });
         listennerChoiceElemt = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiChoiceElmt g = new GuiChoiceElmt(itself);
+
+                Future f = THREAD_POOL.submit(new GuiChoiceElmt(itself));
+                try {
+                    ((ButtonEdit)e.getSource()).setElmt((AElement) f.get(30, TimeUnit.SECONDS));
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                } catch (ExecutionException e1) {
+                    e1.printStackTrace();
+                } catch (TimeoutException e1) {
+                    e1.printStackTrace();
+                }
+                ((ButtonEdit)e.getSource()).updateTexture();
             }
         };
         help.addActionListener(new ActionListener() {
