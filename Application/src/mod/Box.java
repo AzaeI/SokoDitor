@@ -9,7 +9,7 @@ public class Box extends AElement {
 
     private String pathToTextureOK;
 
-    Box(){
+    public Box(){
         setPathToTexture("Sprites/BoxKO.png");
         pathToTextureOK = "Sprites/BoxOK.png";
     }

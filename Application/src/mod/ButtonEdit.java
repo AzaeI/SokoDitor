@@ -10,25 +10,19 @@ import javax.swing.*;
 public class ButtonEdit extends JButton {
 
     private AElement elmt;
-    private int x;
-    private int y;
+    String s;
 
-    public ButtonEdit(AElement e, int x, int y){
+    public ButtonEdit(AElement e){
         elmt = e;
-        this.x = x;
-        this.y = y;
         ImageIcon img = new ImageIcon(elmt.getPathToTexture());
         setIcon(img);
     }
+    public ButtonEdit(AElement e,String s){
+        elmt = e;
+        ImageIcon img = new ImageIcon(elmt.getPathToTexture());
+        setIcon(img);
+        this.s = s;
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
     }
 
     public void setElmt(AElement elmt) {
@@ -38,5 +32,9 @@ public class ButtonEdit extends JButton {
     private void updateTexture(){
         ImageIcon img = new ImageIcon(elmt.getPathToTexture());
         setIcon(img);
+    }
+
+    public AElement getElmt() {
+        return elmt;
     }
 }
