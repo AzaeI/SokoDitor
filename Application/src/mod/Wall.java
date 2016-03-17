@@ -7,7 +7,7 @@ import ctrl.AElement;
  */
 public class Wall extends AElement{
 
-    Wall(){
+    public Wall(){
         setPathToTexture("Sprites/Wall.png");
     }
 }
