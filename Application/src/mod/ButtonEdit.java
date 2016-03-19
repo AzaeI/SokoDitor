@@ -1,7 +1,5 @@
 package mod;
 
-import ctrl.AElement;
-
 import javax.swing.*;
 
 /**
@@ -29,7 +27,7 @@ public class ButtonEdit extends JButton {
         this.elmt = elmt;
         updateTexture();
     }
-    private void updateTexture(){
+    public void updateTexture(){
         ImageIcon img = new ImageIcon(elmt.getPathToTexture());
         setIcon(img);
     }

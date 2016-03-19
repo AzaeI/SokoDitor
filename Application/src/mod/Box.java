@@ -1,80 +1,46 @@
 package mod;
 
-import ctrl.AElement;
+import ctrl.IBox;
 import util.Input;
 import util.Position;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by Yohan on 03/03/2016.
  */
-public class Box extends AElement {
+public class Box extends Element implements IBox {
 
     private boolean isOnFinish = false;
 
-    private String pathToTextureOK;
-
-    public Box(){
-        setPathToTexture("Sprites/BoxKO.png");
-        pathToTextureOK = "Sprites/BoxOK.png";
+    public Box(Position init,Game _game){
+        game = _game;
+        init(init);
+//        System.out.println(currentpos.getX()+" , "+currentpos.getY());
     }
-
-    public String getPathToTextureOK() {
-        return pathToTextureOK;
-    }
-
-    private char [][] map;
-
-    private char neighborLeft;
-    private char neighborRight;
-    private char neighborTop;
-    private char neighborBot;
-
-    private Position initialpos;
-    private Position currentpos;
 
     public boolean getState(){
         return isOnFinish;
     }
 
-    private void getNeighbors(){
-        neighborBot = map[currentpos.getX()+1][currentpos.getY()];
-        neighborLeft = map[currentpos.getX()][currentpos.getY()-1];
-        neighborTop = map[currentpos.getX()-1][currentpos.getY()];
-        neighborRight = map[currentpos.getX()][currentpos.getY()+1];
-    }
-
-    public void init(Position p){
-        initialpos = p;
-        currentpos = p;
+    @Override protected void update(){
         getNeighbors();
+        isOnFinish = false;
+//        System.out.println(isOnFinish+" , "+map[currentpos.getX()][currentpos.getY()]);
+
+        if (map[currentpos.getX()][currentpos.getY()] == '.') {
+            isOnFinish = true;
+//                System.out.println("aime des aires");
+        }
+        setChanged();notifyObservers();
+        game.isWin();
+//        System.out.println(currentpos.getX()+" , "+currentpos.getY());
     }
 
-    public void Move(Input.State input){
-        switch (input){
-            case DOWN :
-                if(neighborBot != '#') {
-                    currentpos.setY(currentpos.getY() + 1);
-                    getNeighbors();
-                }
-                break;
-            case LEFT :
-                if(neighborBot != '#') {
-                    currentpos.setX(currentpos.getX() - 1);
-                    getNeighbors();
-                }
-                break;
-            case UP :
-                if(neighborBot != '#') {
-                    currentpos.setY(currentpos.getY() - 1);
-                    getNeighbors();
-                }
-                break;
-            case RIGHT :
-                if(neighborBot != '#') {
-                    currentpos.setX(currentpos.getX() + 1);
-                    getNeighbors();
-                }
-                break;
-        }
+    public void setBoxes(List<Box> b){
+        boxes = b;
     }
 }

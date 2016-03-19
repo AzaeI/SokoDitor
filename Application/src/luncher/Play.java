@@ -1,6 +1,6 @@
 package luncher;
 
-import gui.GuiMap;
+import gui.GuiGame;
 
 import javax.swing.*;
 import javax.swing.text.StringContent;
@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import mod.Game;
 import util.*;
 
 public class Play extends JPanel {
@@ -56,7 +58,9 @@ public class Play extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         itself.setVisible(false);
-                        GuiMap map = new GuiMap(((JButton)e.getSource()).getText());
+
+                        new GuiGame(new Game(new mod.Map(((JButton)e.getSource()).getText())));
+
                         Screens.SetScreen(Screens.mainMenu);
                     }
                 });

@@ -1,73 +1,91 @@
 package gui;
 
-import ctrl.AElement;
-import mod.Map;
-import util.Input;
+import ctrl.IMap;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.TableUI;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
+import java.util.Observable;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by Yohan on 03/03/2016.
  */
-public class GuiMap extends JFrame{
+public class GuiMap extends JComponent implements java.util.Observer{
 
-    private int Hauteur;
-    private int Largeur;
-    private Map map;
-    private AElement ObjectMap[][];
-    private final GuiMap itself = this;
+/**
+*  # : Wall
+*  , : Floor
+*  @ : Character
+*  . : Goal
+*  $ : Box
+**/
+    private IMap map;
 
     private static boolean isaMapOpen = false;
-    private int resolution = 64;
 
-    public GuiMap(String path){
-        addKeyListener(new Input());
+    private static final String FLOOR = "Sprites/Ground.png";
+    private static final String WALL = "Sprites/Wall.png";
+    private static final String EMPTY = "Sprites/Vide.png";
+    private static final String GOAL = "Sprites/Goal.png";
+    private static final String BOX = "Sprites/Ground.png";
+    private static final String START = "Sprites/Ground.png";
 
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
+    public GuiMap(IMap _map){
+
+        /*this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 isaMapOpen = false;
                 dispose();
             }
-        });
-        if(!isaMapOpen){
-            isaMapOpen = true;
-            map = new Map("Levels/"+path+".xml");
-            Hauteur = map.getHeight();
-            Largeur = map.getWidth();
+        });*/
 
-            ObjectMap = map.getMapObject();
-
-            this.setLayout(new GridLayout(Hauteur,Largeur));
-
-            for(int i = 0; i < Hauteur; i++){
-                for (int j = 0; j < Largeur; j++){
-                    JLabel b = new JLabel();
-                    String pathToText = ObjectMap[i][j].getPathToTexture();
-                    ImageIcon img = new ImageIcon(pathToText);
-                    b.setIcon(img);
-                    b.setSize(new Dimension(resolution,resolution));
-                    this.add(b);
-                }
-            }
-            setResizable(false);
-            setSize(new Dimension(resolution*Largeur,resolution*Hauteur));
-            setVisible(true);
-        }else {
-            showMessageDialog(null, "Vous ne pouvez pas lancer deux parties en même temps !");
-        }
-
+        map = _map;
+        map.addObserver(this);
     }
 
     public void setResolution(int resolution) {
-        this.resolution = resolution;
+//        this.resolution = resolution;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("Map Mis a jour");
+        repaint();
+    }
+
+    protected void draw(Graphics g){
+//        g.drawImage(texture, iBox.getPosition().getX()*64,iBox.getPosition().getY()*64, null);
+
+        for(int i = 0; i < map.getHeight(); i++){
+            for(int j = 0; j<map.getWidth(); j++){
+                switch(map.getCharMap()[i][j]){
+                    case '#':
+                        g.drawImage(new ImageIcon(WALL).getImage(), j*64, i*64, this);
+                        break;
+                    case ',':
+                        g.drawImage(new ImageIcon(FLOOR).getImage(), j*64, i*64, this);
+                        break;
+                    case '@':
+                        g.drawImage(new ImageIcon(START).getImage(), j*64, i*64, this);
+                        break;
+                    case '.':
+                        g.drawImage(new ImageIcon(GOAL).getImage(), j*64, i*64, this);
+                        break;
+                    case '$':
+                        g.drawImage(new ImageIcon(BOX).getImage(), j*64, i*64, this);
+                        break;
+                    case ';':
+                        g.drawImage(new ImageIcon(EMPTY).getImage(), j*64, i*64, this);
+                        break;
+                }
+            }
+        }
+        System.out.println("Map dessinée");
+    }
+
+    @Override protected void paintComponent(Graphics g){
+        draw(g);
     }
 }

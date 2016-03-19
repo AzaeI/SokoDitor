@@ -1,25 +1,27 @@
 package gui;
 
 
-import ctrl.AElement;
+import mod.AElement;
 import mod.*;
-import mod.Box;
-import mod.Character;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Yohan on 17/03/2016.
  */
-public class GuiChoiceElmt extends JFrame{
+public class GuiChoiceElmt extends JFrame implements Callable {
 
     private int nbSprite;
     private String nameSpriteEdit;
     private int resolution = 128;
     private GuiChoiceElmt itself;
+
+    private AElement elmtToSubmit;
+
 
     protected GuiChoiceElmt(GuiEditor g){
         nbSprite = g.getNameSprite().size();
@@ -40,7 +42,7 @@ public class GuiChoiceElmt extends JFrame{
             ButtonEdit a = null;
             ImageIcon img = new ImageIcon(nameSpriteEdit + "/" +g.getNameSprite().get(i) + ".png");
             switch (g.getNameSprite().get(i)){
-                case "BoxKO":
+               /* case "BoxKO":
                     a = new ButtonEdit(new Box(),g.getNameSprite().get(i));
                     break;
                 case "Chara":
@@ -57,7 +59,7 @@ public class GuiChoiceElmt extends JFrame{
                     break;
                 case "Wall":
                     a = new ButtonEdit(new Wall(),g.getNameSprite().get(i));
-                    break;
+                    break;*/
             }
             JPanel b = new JPanel();
             a.setIcon(img);
@@ -65,8 +67,8 @@ public class GuiChoiceElmt extends JFrame{
             a.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println(((ButtonEdit)e.getSource()).getElmt());
-
+                    elmtToSubmit = ((ButtonEdit)e.getSource()).getElmt();
+                    itself.dispose();
                 }
             });
             mainPanel.add(b);
@@ -75,8 +77,9 @@ public class GuiChoiceElmt extends JFrame{
         setResizable(false);
         setVisible(true);
     }
-    protected AElement returnElm(){
-        return null;
-    }
 
+    @Override
+    public Object call() throws Exception {
+        return elmtToSubmit;
+    }
 }

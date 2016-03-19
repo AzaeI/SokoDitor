@@ -1,6 +1,6 @@
 package gui;
 
-import ctrl.AElement;
+import mod.AElement;
 import mod.ButtonEdit;
 import mod.Vide;
 
@@ -154,13 +154,24 @@ public class GuiEditor  extends JFrame{
         buttonGenerer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                //TODO
             }
         });
         listennerChoiceElemt = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiChoiceElmt g = new GuiChoiceElmt(itself);
+
+//                Future f = THREAD_POOL.submit(new GuiChoiceElmt(itself));
+//                try {
+//                    ((ButtonEdit)e.getSource()).setElmt((AElement) f.get(30, TimeUnit.SECONDS));
+//                } catch (InterruptedException e1) {
+//                    e1.printStackTrace();
+//                } catch (ExecutionException e1) {
+//                    e1.printStackTrace();
+//                } catch (TimeoutException e1) {
+//                    e1.printStackTrace();
+//                }
+//                ((ButtonEdit)e.getSource()).updateTexture();
             }
         };
         help.addActionListener(new ActionListener() {
