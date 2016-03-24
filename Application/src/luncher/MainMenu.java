@@ -13,6 +13,7 @@ public class MainMenu extends JPanel {
     final static String text_button_editor = new String("Editeur");
     final static String text_button_login = new String("Se connecter");
     final static String text_button_settings = new String("Options");
+    final static String text_button_exit = new String("Quitter Sokoditor");
 
     public MainMenu() {
 
@@ -23,12 +24,13 @@ public class MainMenu extends JPanel {
         JButton button_editor = new JButton(text_button_editor);
         JButton button_login = new JButton(text_button_login);
         JButton button_settings = new JButton(text_button_settings);
+        JButton button_exit = new JButton(text_button_exit);
 
         //Tableau contenant tout les boutons
-        JButton buttons[] = {button_play, button_editor,button_login ,button_settings};
+        JButton buttons[] = {button_play, button_editor,button_login ,button_settings, button_exit};
 
         //Positionneur
-        GridLayout main_button_positionner = new GridLayout(4, 1, SPACE_BETWEEN, SPACE_BETWEEN);
+        GridLayout main_button_positionner = new GridLayout(buttons.length, 1, SPACE_BETWEEN, SPACE_BETWEEN);
 
         //Coloration et insertion des boutons dans la grille
         for (int i = 0; i < buttons.length; i++) {
@@ -80,6 +82,12 @@ public class MainMenu extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 itself.setVisible(false);
                 Screens.SetScreen(Screens.editor);
+            }
+        });
+        button_exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
 
