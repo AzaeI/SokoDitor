@@ -1,17 +1,21 @@
 package luncher;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 
 public class Settings extends JPanel {
 
+    JOptionPane pane = new JOptionPane();
 
     //Boite de fileChooser de recuperation de ficher et son/ses filtre(s)
     JFileChooser fileChooser = new JFileChooser();
-    MonFiltre filterPNG = new MonFiltre(new String[]{"png"},"les fichiers PNG (*.png)");
+    MonFiltre filterPNG = new MonFiltre(new String[]{"png"}, "Fichers PNG de taille 64 sur 64 (*.png)");
 
     // récuperation du this
     JPanel itself = this;
@@ -240,15 +244,35 @@ public class Settings extends JPanel {
         }
     }
 
-    void set_invisible(JCheckBox box){
+    void set_invisible(JCheckBox box) {
         box.setEnabled(false);
         box.setForeground(Screens.soko_menu_background);
         box.setBackground(Screens.soko_menu_background);
     }
 
-    File get_file(){
+    File get_file() {
+        BufferedImage bimg = null;
         fileChooser.showOpenDialog(null);
         System.out.println("Fichier choisi : " + fileChooser.getSelectedFile());
-        return fileChooser.getSelectedFile();
+        File file = fileChooser.getSelectedFile();
+
+
+        try {
+            bimg = ImageIO.read(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int width = bimg.getWidth();
+        int height = bimg.getHeight();
+
+        System.out.println("width : " + width);
+        System.out.println("height : " + height);
+
+        if (width == 64 && height == 64) {
+            return fileChooser.getSelectedFile();
+        } else {
+            pane.showMessageDialog(null, "Votre image ne peut pas etre accepté car sa taille est differente de 64 pixels sur 64 pixels", "Image refusée", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
     }
 }

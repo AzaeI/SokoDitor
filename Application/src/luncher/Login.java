@@ -29,8 +29,8 @@ public class Login extends JPanel {
         //Initialisation des textes
         JTextField area_email  = new JTextField(" Adresse électronique -> ");
         JTextField area_passowrd = new JTextField(" Mot de passe -> ");
-        final JTextField field_email = new JTextField("Entrez votre email ici");
-        final JTextField field_password = new JTextField("Entrez votre mot de passe ici");
+        final JTextField field_email = new JTextField("");
+        final JPasswordField field_password = new JPasswordField("");
 
         //Tableaux contenant tous les objets
         JButton[] buttons = {button_back, button_login};
@@ -101,7 +101,6 @@ public class Login extends JPanel {
                 }
             }
         });
-
 
         //Coloration du fond du panel
         this.setBackground(Screens.soko_menu_background);
