@@ -21,13 +21,9 @@ import org.xml.sax.SAXException;
  */
 public class Map {
 
-    private int id;
     private int width;
     private int height;
-    private int original;
     private String title;
-    private String author;
-    private String date;
     private char[][] map;
     private AElement[][] mapObject;
 /**
@@ -36,6 +32,7 @@ public class Map {
  *  @ : Character
  *  . : Goal
  *  $ : Box
+ *  ; : Vide
  **/
     public Map(String path) {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -57,13 +54,9 @@ public class Map {
             }
             final Element L = (Element) Level.item(indice);
 
-            this.id = Integer.parseInt(L.getAttribute("Id"));
             this.width = Integer.parseInt(L.getAttribute("Width"));
             this.height = Integer.parseInt(L.getAttribute("Height"));
             this.title = L.getAttribute("Title");
-            this.original = Integer.parseInt(L.getAttribute("Original"));
-            this.author = L.getAttribute("Author");
-            this.date = L.getAttribute("Date");
 
             map = new char[height][width];
             for(int j = 0; j < height;j++){

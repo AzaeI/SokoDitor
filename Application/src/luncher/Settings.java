@@ -72,6 +72,10 @@ public class Settings extends JPanel {
 
         JButton button_new_mdp = new JButton(text_button_new_mdp);
 
+        //verification d'un compte connecté
+
+        button_tab_user.setEnabled(false);
+
         // Space
         JCheckBox space1 = new JCheckBox();
         JCheckBox space2 = new JCheckBox();
@@ -100,6 +104,9 @@ public class Settings extends JPanel {
         button_back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                display_options(tab_sound, false);
+                display_options(tab_textures, false);
+                display_options(tab_user, false);
                 itself.setVisible(false);
                 Screens.SetScreen(Screens.mainMenu);
             }

@@ -3,18 +3,24 @@ package gui;
 import ctrl.AElement;
 import mod.ButtonEdit;
 import mod.Vide;
+import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -53,13 +59,16 @@ public class GuiEditor  extends JFrame{
     private String[] listSprite;
     private ArrayList<String> nameSprite = new ArrayList<>();
 
-    private int hauteur = 5;
-    private int largeur = 5;
+    private int hauteur = 15;
+    private int largeur = 15;
 
     private GridLayout grid = new GridLayout(hauteur,largeur);
     private ActionListener listennerChoiceElemt;
 
     private GuiEditor itself;
+
+    private AElement elmtToSubmit = new Vide();
+    private boolean sema = true;
 
     public GuiEditor(){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -126,6 +135,15 @@ public class GuiEditor  extends JFrame{
             showMessageDialog(null, "Vous ne pouvez pas Editer 2 map en même temps !");
         }
     }
+    public void printGridLayout(){
+        for (int i = 0; i < hauteur;i++ ){
+            for (int j = 0; j < largeur; j++){
+                System.out.print(mapGenerate[i][j].getElmt().getClass().toString()+" - ");
+            }
+            System.out.println();
+        }
+
+    }
     private void initActionListenner(){
         textFieldHauteurmap.addActionListener(new ActionListener() {
             @Override
@@ -158,24 +176,92 @@ public class GuiEditor  extends JFrame{
         buttonGenerer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //TODO
+                final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                String nameMap = textFieldNomMap.getText();
+                if (nameMap.isEmpty()){
+                    showMessageDialog(null, "Rentrer un nom de Level Valide");
+                    return;
+                }
+                try {
+                    final DocumentBuilder builder = factory.newDocumentBuilder();
+                    final Document document = builder.newDocument();
+                    final Element racine = document.createElement("SokobanLevels");
+                    final Element level = document.createElement("Level");
+                    level.setAttribute("Width", largeur + "");
+                    level.setAttribute("Height", hauteur + "");
+                    level.setAttribute("Title", nameMap);
+
+
+                    boolean haveAnChar = false;
+                    for (int i = 0; i < hauteur; i++){
+                        Element LCourrant = document.createElement("L"+(i+1));
+                        for (int j = 0; j < largeur; j++){
+                            String ligneLv = "";
+                            switch (mapGenerate[i][j].getElmt().getClass().toString()){
+                                case "class mod.Vide" :
+                                    ligneLv+= ';';
+                                    break;
+                                case "class mod.Box" :
+                                    ligneLv+= '$';
+                                    break;
+                                case "class mod.Characeter":
+                                    if (!haveAnChar){
+                                        haveAnChar = true;
+                                        ligneLv+= '@';
+                                    }
+                                    else{
+                                        showMessageDialog(null, "Il ne peut y avoir qu'un seul Personnage...");
+                                        return;
+                                    }
+                                    break;
+                                case "class mod.Floor" :
+                                    ligneLv+= ',';
+                                    break;
+                                case "class mod.Goal" :
+                                    ligneLv+= '.';
+                                    break;
+                                case "class mod.Wall" :
+                                    ligneLv+= '#';
+                                    break;
+                            }
+                            LCourrant.appendChild(document.createTextNode(ligneLv));
+                        }
+                        level.appendChild(LCourrant);
+                     }
+
+                    racine.appendChild(level);
+                    document.appendChild(racine);
+
+                    final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    final Transformer transformer = transformerFactory.newTransformer();
+                    final DOMSource source = new DOMSource(document);
+                    final StreamResult sortie = new StreamResult(new File("Levels/"+nameMap+".xml"));
+
+                    transformer.setOutputProperty(OutputKeys.VERSION, "1.0");
+                    transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+                    transformer.transform(source, sortie);
+                    itself.dispose();
+
+                } catch (ParserConfigurationException e1) {
+                    e1.printStackTrace();
+                } catch (TransformerConfigurationException e) {
+                    e.printStackTrace();
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
             }
         });
         listennerChoiceElemt = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-//                Future f = THREAD_POOL.submit(new GuiChoiceElmt(itself));
-//                try {
-//                    ((ButtonEdit)e.getSource()).setElmt((AElement) f.get(30, TimeUnit.SECONDS));
-//                } catch (InterruptedException e1) {
-//                    e1.printStackTrace();
-//                } catch (ExecutionException e1) {
-//                    e1.printStackTrace();
-//                } catch (TimeoutException e1) {
-//                    e1.printStackTrace();
-//                }
-//                ((ButtonEdit)e.getSource()).updateTexture();
+                sema = true;
+                GuiChoiceElmt f = new GuiChoiceElmt(itself);
+                while(sema);
+                ((ButtonEdit)e.getSource()).setElmt(elmtToSubmit);
+                ((ButtonEdit)e.getSource()).updateTexture();
             }
         };
         help.addActionListener(new ActionListener() {
@@ -185,6 +271,15 @@ public class GuiEditor  extends JFrame{
             }
         });
     }
+
+    public void setElmtToSubmit(AElement elmtToSubmit) {
+        this.elmtToSubmit = elmtToSubmit;
+    }
+
+    public void setSema(boolean sema) {
+        this.sema = sema;
+    }
+
     private void initPannelEditionParama(){
         Paramedit.setLayout(new GridLayout(4,0));
 

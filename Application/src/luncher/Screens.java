@@ -10,8 +10,10 @@ public class Screens extends JFrame {
     final static int X_SIZE = 600;
     final static int Y_SIZE = 600;
 
+    //Reserve de police d'ecriture
     final static Font font = new Font("Calibri light", Font.BOLD, 20);
 
+    //Reserve de couleurs pour les menus
     final static Color soko_background = Color.BLUE;
     final static Color soko_button_background = Color.GRAY;
     final static Color soko_font_color = Color.cyan;
@@ -21,10 +23,10 @@ public class Screens extends JFrame {
     final static JFrame mainFrame = new JFrame();
     static MainMenu mainMenu = new MainMenu();
     static Login login = new Login();
+    static SignIn signIn = new SignIn();
     static Settings settings = new Settings();
     static Play play = new Play();
     static Editor editor = new Editor();
-
 
     public Screens() {
         mainFrame.setTitle("SokoDitor");
@@ -40,7 +42,5 @@ public class Screens extends JFrame {
         mainFrame.setContentPane(panel);
         panel.setVisible(true);
     }
-
-
 
 }
