@@ -11,10 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -60,6 +57,9 @@ public class GuiEditor  extends JFrame{
     private ActionListener listennerChoiceElemt;
 
     private GuiEditor itself;
+
+    private AElement elmtToSubmit = new Vide();
+    private boolean sema = true;
 
     public GuiEditor(){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -164,18 +164,11 @@ public class GuiEditor  extends JFrame{
         listennerChoiceElemt = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-//                Future f = THREAD_POOL.submit(new GuiChoiceElmt(itself));
-//                try {
-//                    ((ButtonEdit)e.getSource()).setElmt((AElement) f.get(30, TimeUnit.SECONDS));
-//                } catch (InterruptedException e1) {
-//                    e1.printStackTrace();
-//                } catch (ExecutionException e1) {
-//                    e1.printStackTrace();
-//                } catch (TimeoutException e1) {
-//                    e1.printStackTrace();
-//                }
-//                ((ButtonEdit)e.getSource()).updateTexture();
+                sema = true;
+                GuiChoiceElmt f = new GuiChoiceElmt(itself);
+                while(sema);
+                ((ButtonEdit)e.getSource()).setElmt(elmtToSubmit);
+                ((ButtonEdit)e.getSource()).updateTexture();
             }
         };
         help.addActionListener(new ActionListener() {
@@ -185,6 +178,15 @@ public class GuiEditor  extends JFrame{
             }
         });
     }
+
+    public void setElmtToSubmit(AElement elmtToSubmit) {
+        this.elmtToSubmit = elmtToSubmit;
+    }
+
+    public void setSema(boolean sema) {
+        this.sema = sema;
+    }
+
     private void initPannelEditionParama(){
         Paramedit.setLayout(new GridLayout(4,0));
 
