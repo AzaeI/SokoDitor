@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 
 class Menu extends JPanel {
 
-    private final static int SPACE_BETWEEN = 30;
-
     Menu(JPanel cards) {
 
         CardLayout cl = (CardLayout) cards.getLayout();
