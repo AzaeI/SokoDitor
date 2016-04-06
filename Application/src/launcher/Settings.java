@@ -1,4 +1,4 @@
-package luncher;
+package launcher;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class Settings extends JPanel {
 
-    JOptionPane pane = new JOptionPane();
+    private JOptionPane pane = new JOptionPane();
 
     //Boite de fileChooser de recuperation de ficher et son/ses filtre(s)
     JFileChooser fileChooser = new JFileChooser();
@@ -43,7 +43,7 @@ public class Settings extends JPanel {
 
     final static String text_button_new_mdp = new String("Changer de mot de passe : ");
 
-    public Settings() {
+    public Settings(JPanel cards) {
 
         fileChooser.removeChoosableFileFilter(fileChooser.getAcceptAllFileFilter());
         fileChooser.addChoosableFileFilter(filterPNG);
@@ -108,7 +108,7 @@ public class Settings extends JPanel {
                 display_options(tab_textures, false);
                 display_options(tab_user, false);
                 itself.setVisible(false);
-                Screens.SetScreen(Screens.mainMenu);
+               // MainFrame.SetScreen(MainFrame.mainMenu);
             }
         });
 
@@ -212,9 +212,9 @@ public class Settings extends JPanel {
 
         //Coloration des boutons
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setBackground(Screens.soko_button_background);
-            buttons[i].setForeground(Screens.soko_foreground);
-            buttons[i].setFont(Screens.font);
+            /*buttons[i].setBackground(MainFrame.soko_button_background);
+            buttons[i].setForeground(MainFrame.soko_foreground);
+            buttons[i].setFont(MainFrame.font);*/
         }
 
         //Ajout et positionnement des boutons
@@ -227,13 +227,13 @@ public class Settings extends JPanel {
         add_multiple(tab_textures);
         add_multiple(tab_user);
         //Coloration du fond du panel
-        this.setBackground(Screens.soko_menu_background);
+        //this.setBackground(MainFrame.soko_menu_background);
 
         //Coloration des boutons de catégories
-        button_tab_sound.setBackground(Screens.soko_background);
-        button_tab_textures.setBackground(Screens.soko_background);
-        button_tab_user.setBackground(Screens.soko_background);
-
+       /* button_tab_sound.setBackground(MainFrame.soko_background);
+        button_tab_textures.setBackground(MainFrame.soko_background);
+        button_tab_user.setBackground(MainFrame.soko_background);
+*/
         //End
         this.setVisible(true);
     }
@@ -253,8 +253,8 @@ public class Settings extends JPanel {
 
     void set_invisible(JCheckBox box) {
         box.setEnabled(false);
-        box.setForeground(Screens.soko_menu_background);
-        box.setBackground(Screens.soko_menu_background);
+        //box.setForeground(MainFrame.soko_menu_background);
+        //box.setBackground(MainFrame.soko_menu_background);
     }
 
     File get_file() {

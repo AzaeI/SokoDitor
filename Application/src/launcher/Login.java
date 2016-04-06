@@ -1,4 +1,4 @@
-package luncher;
+package launcher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,9 +53,9 @@ public class Login extends JPanel {
         //Coloration et ajout des boutons dans la grille
         for (int i = 0; i < buttons.length; i++) {
             //Apparence des boutons
-            buttons[i].setBackground(Screens.soko_button_background);
-            buttons[i].setForeground(Screens.soko_foreground);
-            buttons[i].setFont(Screens.font);
+           // buttons[i].setBackground(Screens.soko_button_background);
+            //buttons[i].setForeground(Screens.soko_foreground);
+            //buttons[i].setFont(Screens.font);
 
             //Grille
             main_button_positionner.addLayoutComponent("", buttons[i]);
@@ -66,9 +66,9 @@ public class Login extends JPanel {
 
         for (int i = 0; i < textFields.length; i++) {
             //Apparence des boutons
-            textFields[i].setBackground(Screens.soko_background);
-            textFields[i].setForeground(Screens.soko_foreground);
-            textFields[i].setFont(Screens.font);
+           // textFields[i].setBackground(Screens.soko_background);
+            //textFields[i].setForeground(Screens.soko_foreground);
+            //textFields[i].setFont(Screens.font);
             textFields[i].setHorizontalAlignment(JTextField.CENTER);
 
             //Grille
@@ -83,7 +83,7 @@ public class Login extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 itself.setVisible(false);
-                Screens.SetScreen(Screens.mainMenu);
+                //Screens.SetScreen(Screens.mainMenu);
             }
         });
 
@@ -115,7 +115,7 @@ public class Login extends JPanel {
         });
 
         //Coloration du fond du panel
-        this.setBackground(Screens.soko_menu_background);
+        //this.setBackground(Screens.soko_menu_background);
 
         //Choix du positionneur
         this.setLayout(main_button_positionner);
