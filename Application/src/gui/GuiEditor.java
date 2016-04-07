@@ -267,7 +267,7 @@ public class GuiEditor  extends JFrame{
         help.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiHelp g = new GuiHelp();
+                showMessageDialog(null, "Pour valider la hauteur ou la largeur de la grille,\nil suffit d'appuyer sur entrée, une fois la valeur mise.");
             }
         });
     }
