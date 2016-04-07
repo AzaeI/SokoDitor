@@ -1,8 +1,6 @@
 package launcher;
 
-import storage.dao.factory.DAOFactory;
-import storage.dao.factory.FactoryType;
-import util.SQLConnection;
+import DAOpattern.SQLConnection;
 
 import javax.swing.*;
 import java.awt.*;
