@@ -1,6 +1,5 @@
 package launcher;
 
-import DAOpattern.SQLConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,7 +67,7 @@ class Downloader extends JPanel {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SQLConnection.getInstance();
+
             }
         });
 

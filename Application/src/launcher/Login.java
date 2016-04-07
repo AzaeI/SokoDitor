@@ -1,131 +1,177 @@
 package launcher;
 
+import storage.bean.User;
+import storage.dao.DAO;
+import storage.dao.factory.DAOFactory;
+import storage.dao.factory.FactoryType;
+import storage.dao.mysql.UserDAO;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.awt.event.*;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends JPanel {
 
-    //Espace entre les boutons
-    final static int SPACE_BETWEEN = 20;
+    private final static String text_button_back = "Retourner en arriere";
+    private final static String text_button_login = "Se Connecter";
 
-    final static String text_button_back = new String("Retourner en arriere");
-    final static String text_button_login = new String("Se Connecter");
+    private JTextField usernameField;
+    private JPasswordField passwordField;
 
-    boolean email_clicked = false;
-    boolean password_clicked = false;
-
-    public Login() {
-        final Login itself = this;
+    public Login(JPanel cards) {
+        CardLayout cl = (CardLayout) cards.getLayout();
 
         //Initialisation des boutons
-        JButton button_login = new JButton(text_button_login);
-        JButton button_back = new JButton(text_button_back);
+        JButton loginButton     = new JButton(text_button_login);
+        JButton backButton      = new JButton();
+        JButton signupButton    = new JButton("Signup");
 
         //Initialisation des textes
-        JTextField area_username = new JTextField(" Pseudonyme -> ");
-        JTextField area_passowrd = new JTextField(" Mot de passe -> ");
-        final JTextField field_username = new JTextField("");
-        final JPasswordField field_password = new JPasswordField("");
+        JLabel usernameArea = new JLabel("Nom d'utilisateur ");
+        JLabel passwordArea = new JLabel("Mot de passe");
+        usernameField = new JTextField("");
+        passwordField = new JPasswordField("");
 
-        //Tableaux contenant tous les objets
-        JButton[] buttons = {button_back, button_login};
-        JTextField[] textFields = {area_username, field_username, area_passowrd, field_password};
+        backButton.setOpaque(false);
+        backButton.setFocusPainted(false);
+        backButton.setBorderPainted(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setPreferredSize(new Dimension(usernameArea.getMinimumSize()));
+        backButton.setHorizontalAlignment(SwingConstants.LEFT);
+        Image img = new ImageIcon("Icones/back.ico").getImage().getScaledInstance(20,20, Image.SCALE_AREA_AVERAGING);
+        backButton.setIcon(new ImageIcon(img));
 
-        //Positionneur
-        GridLayout main_button_positionner = new GridLayout(3, 2, SPACE_BETWEEN, SPACE_BETWEEN);
+        passwordArea.setPreferredSize(usernameArea.getMinimumSize());
 
-        //Verouillage des texte d'informations
-        area_username.setEditable(false);
-        area_passowrd.setEditable(false);
-        area_username.setFocusable(false);
-        area_passowrd.setFocusable(false);
+        usernameField.setPreferredSize(new Dimension(200,20));
+        passwordField.setPreferredSize(new Dimension(200,20));
 
-        //Coloration et ajout des boutons dans la grille
-        for (int i = 0; i < buttons.length; i++) {
-            //Apparence des boutons
-           // buttons[i].setBackground(Screens.soko_button_background);
-            //buttons[i].setForeground(Screens.soko_foreground);
-            //buttons[i].setFont(Screens.font);
+        usernameArea.setHorizontalAlignment(SwingConstants.LEFT);
+        passwordArea.setHorizontalAlignment(SwingConstants.LEFT);
+        this.setLayout(new GridBagLayout());
 
-            //Grille
-            main_button_positionner.addLayoutComponent("", buttons[i]);
+        GridBagConstraints gbc = new GridBagConstraints();
 
-            //Ajout des boutons
-            this.add(buttons[i]);
-        }
+        int i = 0;
+        int j = 0;
 
-        for (int i = 0; i < textFields.length; i++) {
-            //Apparence des boutons
-           // textFields[i].setBackground(Screens.soko_background);
-            //textFields[i].setForeground(Screens.soko_foreground);
-            //textFields[i].setFont(Screens.font);
-            textFields[i].setHorizontalAlignment(JTextField.CENTER);
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
 
-            //Grille
-            main_button_positionner.addLayoutComponent("", textFields[i]);
+        gbc.gridx = i;
+        gbc.gridy = j++;
+        this.add(backButton, gbc);
 
-            //Ajout des boutons
-            this.add(textFields[i]);
-        }
+        gbc.gridx = i++;
+        gbc.gridy = j;
+        this.add(usernameArea, gbc);
 
-        //Actions
-        button_back.addActionListener(new ActionListener() {
+        gbc.gridx = i--;
+        gbc.gridy = j++;
+        this.add(usernameField, gbc);
+
+        gbc.gridx = i++;
+        gbc.gridy = j;
+        this.add(passwordArea, gbc);
+
+        gbc.gridx = i--;
+        gbc.gridy = j++;
+        this.add(passwordField, gbc);
+
+        gbc.gridx = i++;
+        gbc.gridy = j;
+        this.add(signupButton, gbc);
+
+        gbc.gridx = i;
+        gbc.gridy = j;
+        this.add(loginButton, gbc);
+
+        backButton.addActionListener(e -> cl.show(cards, ComponentSettings.MENU_TITLE));
+
+        signupButton.addActionListener(e -> cl.show(cards, ComponentSettings.SIGNUP_TITLE));
+
+        loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                itself.setVisible(false);
-                //Screens.SetScreen(Screens.mainMenu);
+
+                login(usernameField.getText(), String.valueOf(passwordField.getPassword()));
             }
         });
 
-        button_login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                connection();
-            }
-        });
 
-        field_username.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (email_clicked == false) {
-                    field_username.setText("");
-                    email_clicked = true;
-                }
-            }
-        });
-
-        field_password.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (password_clicked == false) {
-                    field_password.setText("");
-                    password_clicked = true;
-                }
-            }
-        });
-
-        //Coloration du fond du panel
-        //this.setBackground(Screens.soko_menu_background);
-
-        //Choix du positionneur
-        this.setLayout(main_button_positionner);
-
-        //End
         this.setVisible(true);
     }
 
-    public static boolean isValidEmailAddress(String email) {
-        String regex = "^(.+)@(.+)$";
+
+
+    private void login(String mail, String password){
+        if(isEmailAddressValid(mail)){
+            if (password.length() >= 6 && password.length() <= 16){
+
+                byte[] bytesOfMessage;
+                MessageDigest md;
+                byte[] thedigest;
+                User user;
+
+                try {
+                    bytesOfMessage = password.getBytes("UTF-8");
+                    md = MessageDigest.getInstance("MD5");
+                    thedigest = md.digest(bytesOfMessage);
+
+                    user = (User) DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(0);
+
+                    if(user.getPassword().equals(Arrays.toString(thedigest))){
+
+                    }
+                    else {
+
+                    }
+
+                } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+            else{
+                passwordField.setText("Le mot de passe est incorrect");
+                passwordField.setEchoChar((char) 0);
+                passwordField.addFocusListener(new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        passwordField.setEchoChar((char) 8226);
+                        passwordField.setText("");
+                    }
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        passwordField.removeFocusListener(this);
+                    }
+                });
+            }
+        }
+        else{
+            usernameField.setText("L'adresse mail est incorrecte");
+            usernameField.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    usernameField.setText("");
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    usernameField.removeFocusListener(this);
+                }
+            });
+        }
+    }
+
+    private boolean isEmailAddressValid(String email) {
+        String regex = "[a-zA-Z.]+@[a-zA-Z]+[.][a-zA-Z]+$";
 
         Pattern pattern = Pattern.compile(regex);
 
@@ -135,52 +181,4 @@ public class Login extends JPanel {
         return matcher.matches();
     }
 
-    public static void connection() {
-
-        String host = "mysql.alwaysdata.com";
-        //String host = "mysql1.alwaysdata.com";
-        String dbname = "elekhyr_sokoditor";
-        String username = "elekhyr_reader";
-        String password = "reader";
-        String port = "3306";
-
-        //String URL = "jdbc:mysql://" + host + ":" + port + "/" + dbname + "";
-        String URL = "jdbc:mysql://" + host + "/" + dbname + "";
-
-        System.out.println("-------- MySQL JDBC Connection Testing ------------");
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Where is your MySQL JDBC Driver?");
-            e.printStackTrace();
-            return;
-        }
-
-        System.out.println("MySQL JDBC Driver Registered!");
-        System.out.println("host : " + host);
-        System.out.println("dbname : " + dbname);
-        System.out.println("username : " + username);
-        System.out.println("password : " + password);
-        System.out.println("port : " + port);
-
-        System.out.println("URL : " + URL);
-        Connection connection = null;
-
-        try {
-            connection = DriverManager
-                    .getConnection(URL, username, password);
-
-        } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
-            return;
-        }
-
-        if (connection != null) {
-            System.out.println("You made it, take control your database now!");
-        } else {
-            System.out.println("Failed to make connection!");
-        }
-    }
 }

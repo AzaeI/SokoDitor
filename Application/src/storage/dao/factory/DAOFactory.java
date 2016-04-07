@@ -1,5 +1,6 @@
 package storage.dao.factory;
 
+import storage.bean.*;
 import storage.dao.DAO;
 import storage.dao.mysql.*;
 
@@ -9,27 +10,27 @@ import storage.dao.mysql.*;
 public class DAOFactory extends AbstractDAOFactory {
 
     @Override
-    public DAO getFeedBackDAO() {
+    public DAO<Feedback> getFeedBackDAO() {
         return new FeedBackDAO();
     }
 
     @Override
-    public DAO getLevelDAO() {
+    public DAO<Level> getLevelDAO() {
         return new LevelDAO();
     }
 
     @Override
-    public DAO getUserDAO() {
+    public DAO<User> getUserDAO() {
         return new UserDAO();
     }
 
     @Override
-    public DAO getScoreDAO() {
+    public DAO<Score> getScoreDAO() {
         return new ScoreDAO();
     }
 
     @Override
-    public DAO getRecoveryQuestionDAO() {
+    public DAO<RecoveryQuestion> getRecoveryQuestionDAO() {
         return new RecoveryQuestionDAO();
     }
 }
