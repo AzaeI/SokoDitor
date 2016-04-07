@@ -2,9 +2,12 @@ package launcher;
 
 import storage.dao.factory.DAOFactory;
 import storage.dao.factory.FactoryType;
+import util.SQLConnection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class Downloader extends JPanel {
 
@@ -14,9 +17,10 @@ class Downloader extends JPanel {
 
         //Initialisation des boutons
         JButton returnButton = new JButton(ComponentSettings.RETURN_BUTTON_TEXT);
+        JButton refreshButton = new JButton(ComponentSettings.REFRESH_BUTTON_TEXT);
 
         //Tableau contenant tous les boutons
-        JButton buttons[] = {returnButton};
+        JButton buttons[] = {returnButton, refreshButton};
 
         //Coloration et insertion des boutons dans la grille
         for (JButton button : buttons) {
@@ -52,11 +56,23 @@ class Downloader extends JPanel {
         gbc.gridwidth = 1;
         this.add(returnButton, gbc);
 
+        gbc.gridy = 1;
+        //La taille en hauteur et en largeur
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        this.add(refreshButton, gbc);
+
         //Coloration du fond du Menu
         this.setBackground(ComponentSettings.MENU_BACKGROUND);
 
         //Actions Listeners
         returnButton.addActionListener(e -> cl.show(cards, ComponentSettings.MENU_TITLE));
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SQLConnection.getInstance();
+            }
+        });
 
         this.setVisible(true);
     }

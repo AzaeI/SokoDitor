@@ -68,6 +68,7 @@ public class ComponentSettings {
     static final String DOWNLOADER_TITLE    = "Downloader";
     static final String DOWNLOADER_BUTTON_TEXT  = "Telecharger des niveaux";
     static final String RETURN_BUTTON_TEXT = "Retourner en arriere";
+    static final String REFRESH_BUTTON_TEXT = "Trouver des niveaux";
     /*************************************************************************
      *                              SETTINGS
      *************************************************************************/
