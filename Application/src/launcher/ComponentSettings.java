@@ -1,5 +1,6 @@
 package launcher;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -35,9 +36,6 @@ public class ComponentSettings {
     static final int X_SIZE = 600;
     static final int Y_SIZE = 600;
 
-
-
-
     /*************************************************************************
      *                              MENU
      *************************************************************************/
@@ -63,7 +61,13 @@ public class ComponentSettings {
     static final String NEW_MAP_TEXT_BUTTON     = "Nouvelle Carte";
     static final String MODIFY_MAP_TEXT_BUTTON  = "Modifier Carte existante";
 
+    /*************************************************************************
+     *                              DOWNLOADER
+     *************************************************************************/
 
+    static final String DOWNLOADER_TITLE    = "Downloader";
+    static final String DOWNLOADER_BUTTON_TEXT  = "Telecharger des niveaux";
+    static final String RETURN_BUTTON_TEXT = "Retourner en arriere";
     /*************************************************************************
      *                              SETTINGS
      *************************************************************************/

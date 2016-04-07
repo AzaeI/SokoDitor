@@ -2,6 +2,8 @@ package launcher;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
 
 import static launcher.ComponentSettings.*;
 
@@ -16,10 +18,12 @@ public class MainFrame extends JFrame {
         cards.add(new Menu(cards), MENU_TITLE);
         cards.add(new Player(cards), PLAYER_TITLE);
         cards.add(new Editor(cards), ComponentSettings.EDITOR_TITLE);
+        cards.add(new Downloader(cards), ComponentSettings.DOWNLOADER_TITLE);
         /*cards.add(new Login(cards), ComponentSettings.LOGIN_TITLE);
         cards.add(new Signup(cards), ComponentSettings.SIGNUP_TITLE);*/
         cards.add(new Settings(cards), ComponentSettings.SETTINGS_TITLE);
         cards.add(new ModifyMap(cards), "Modifier Map");
+
 
 
         this.setContentPane(cards);

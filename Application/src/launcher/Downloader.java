@@ -1,27 +1,22 @@
 package launcher;
 
+import storage.dao.factory.DAOFactory;
+import storage.dao.factory.FactoryType;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-class Menu extends JPanel {
+class Downloader extends JPanel {
 
-    Menu(JPanel cards) {
+    Downloader(JPanel cards) {
 
         CardLayout cl = (CardLayout) cards.getLayout();
 
         //Initialisation des boutons
-        JButton playButton      = new JButton(ComponentSettings.PLAY_BUTTON_TEXT);
-        JButton editorButton    = new JButton(ComponentSettings.EDITOR_BUTTON_TEXT);
-        JButton downloaderButton    = new JButton(ComponentSettings.DOWNLOADER_BUTTON_TEXT);
-        JButton signupButton    = new JButton(ComponentSettings.SIGNUP_BUTTON_TEXT);
-        JButton loginButton     = new JButton(ComponentSettings.LOGIN_BUTTON_TEXT);
-        JButton settingsButton  = new JButton(ComponentSettings.SETTINGS_TITLE);
-        JButton exitButton     = new JButton(ComponentSettings.EXIT_BUTTON_TEXT);
+        JButton returnButton = new JButton(ComponentSettings.RETURN_BUTTON_TEXT);
 
         //Tableau contenant tous les boutons
-        JButton buttons[] = { playButton, editorButton, downloaderButton, signupButton, loginButton, settingsButton, exitButton };
+        JButton buttons[] = {returnButton};
 
         //Coloration et insertion des boutons dans la grille
         for (JButton button : buttons) {
@@ -48,94 +43,20 @@ class Menu extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
 
         /********************************************************
-         *                      PLAY BUTTON
+         *                      RETURN BUTTON
          ********************************************************/
 
         gbc.gridy = 0;
         //La taille en hauteur et en largeur
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
-        this.add(playButton, gbc);
-
-
-        /********************************************************
-         *                      EDITOR BUTTON
-         ********************************************************/
-
-        gbc.gridy = 1;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        this.add(editorButton, gbc);
-
-        /********************************************************
-         *                      DOWNLOADER BUTTON
-         ********************************************************/
-
-        gbc.gridy = 2;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        this.add(downloaderButton, gbc);
-
-
-        /********************************************************
-         *                      SIGNUP BUTTON
-         ********************************************************/
-
-        gbc.gridy = 3;
-        //La taille en hauteur et en largeur
-        this.add(signupButton, gbc);
-
-
-        /********************************************************
-         *                      LOGIN BUTTON
-         ********************************************************/
-
-        gbc.gridy = 4;
-        //La taille en hauteur et en largeur
-        this.add(loginButton, gbc);
-
-
-        /********************************************************
-         *                      SETTINGS BUTTON
-         ********************************************************/
-
-        gbc.gridy = 5;
-        //La taille en hauteur et en largeur
-        this.add(settingsButton, gbc);
-
-
-        /********************************************************
-         *                      EXIT BUTTON
-         ********************************************************/
-
-        gbc.gridy = 6;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        this.add(exitButton, gbc);
-
-
+        this.add(returnButton, gbc);
 
         //Coloration du fond du Menu
         this.setBackground(ComponentSettings.MENU_BACKGROUND);
 
-
         //Actions Listeners
-        settingsButton.addActionListener(e -> cl.show(cards, ComponentSettings.SETTINGS_TITLE));
-
-        loginButton.addActionListener(e -> cl.show(cards, ComponentSettings.LOGIN_TITLE));
-
-        signupButton.addActionListener(e -> cl.show(cards, ComponentSettings.SIGNUP_TITLE));
-
-        playButton.addActionListener(e -> cl.show(cards, ComponentSettings.PLAYER_TITLE));
-
-        editorButton.addActionListener(e -> cl.show(cards, ComponentSettings.EDITOR_TITLE));
-
-        downloaderButton.addActionListener(e -> cl.show(cards, ComponentSettings.DOWNLOADER_TITLE));
-
-        exitButton.addActionListener(e -> System.exit(0));
+        returnButton.addActionListener(e -> cl.show(cards, ComponentSettings.MENU_TITLE));
 
         this.setVisible(true);
     }

@@ -14,10 +14,7 @@ import static launcher.ComponentSettings.*;
 
 public class Editor extends JPanel {
 
-
-
     private ArrayList<JButton> buttons = new ArrayList<JButton>();
-
 
     public Editor(JPanel cards) {
 
