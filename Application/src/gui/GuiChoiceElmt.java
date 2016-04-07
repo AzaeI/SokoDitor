@@ -72,7 +72,6 @@ public class GuiChoiceElmt extends JFrame {
                     g.setElmtToSubmit(((ButtonEdit) e.getSource()).getElmt());
                     hasBeenSelected = true;
                     itself.dispose();
-                    g.setSema(false);
                 }
             });
         }

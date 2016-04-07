@@ -19,6 +19,8 @@ public class MainFrame extends JFrame {
         /*cards.add(new Login(cards), ComponentSettings.LOGIN_TITLE);
         cards.add(new Signup(cards), ComponentSettings.SIGNUP_TITLE);*/
         cards.add(new Settings(cards), ComponentSettings.SETTINGS_TITLE);
+        cards.add(new ModifyMap(cards), "Modifier Map");
+
 
         this.setContentPane(cards);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

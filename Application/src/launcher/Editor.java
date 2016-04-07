@@ -1,11 +1,13 @@
 package launcher;
 
 import gui.GuiEditor;
+import gui.GuiMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import static launcher.ComponentSettings.*;
@@ -37,9 +39,16 @@ public class Editor extends JPanel {
         newMapButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new GuiEditor();
+                new GuiEditor(null);
             }
         });
+        modifyMapButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cl.show(cards,"Modifier Map");
+            }
+        });
+
 
         buttons.add(menuButton);
         buttons.add(newMapButton);
