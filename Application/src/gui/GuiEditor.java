@@ -267,7 +267,7 @@ public class GuiEditor  extends JFrame{
                     final DOMSource source = new DOMSource(document);
 
                     File f = new File("Levels/"+nameMap+".xml");
-                    //TODO test si le fichier est existant ou pas.
+                    //test si fichier présent
                     String[] levelNameList = new File("Levels").list();
                     for(int i = 0; i < levelNameList.length; i++) {
                         if (levelNameList[i].endsWith(".xml")) {
