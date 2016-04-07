@@ -1,5 +1,6 @@
 package gui;
 
+import ctrl.IEditor;
 import mod.AElement;
 import mod.ButtonEdit;
 import mod.Vide;
@@ -19,7 +20,36 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
 /**
  * Created by lab on 13/03/16.
  */
-public class GuiEditor  extends JFrame{
+public class GuiEditor extends JFrame{
+
+    private static final String FLOOR = "Sprites/Ground.png";
+    private static final String WALL = "Sprites/Wall.png";
+    private static final String EMPTY = "Sprites/Vide.png";
+    private static final String GOAL = "Sprites/Goal.png";
+    private static final String BOX = "Sprites/Ground.png";
+    private static final String START = "Sprites/Ground.png";
+
+    private Container mainContainer;
+    private Container tiles;
+    private JButton validation;
+    private JButton reset;
+    private JButton save;
+    private JButton load;
+
+    private IEditor iedit;
+
+    public GuiEditor(IEditor _ie){
+        iedit = _ie;
+    }
+
+    private Container setTilesPane(){
+        JButton button;
+        for(int i=0; i<6; i++){
+            button = new JButton();
+
+        }
+        return tiles;
+    }
 
     private static boolean isaEditorOpen = false;
 
@@ -88,7 +118,7 @@ public class GuiEditor  extends JFrame{
             this.add(BorderLayout.CENTER,mapEditPannel);
 
 
-            /*          PARAM           */
+//                      PARAM
 //            int parrentPannelHeight = parrentHeight;
 //            int parrentPannelWidth = parrentWidth;
 
@@ -101,7 +131,7 @@ public class GuiEditor  extends JFrame{
 
             initPannelEditionParama();
 
-            /*          SPRITES           */
+//                      SPRITES
 //            spritesPannel.setPreferredSize(new Dimension(parrentPannelWidth,(parrentPannelHeight*3)/4));
             spritesPannel.setBackground(Color.red);
             spritesPannel.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.black));
@@ -111,7 +141,7 @@ public class GuiEditor  extends JFrame{
             initSprites(); //get name Sprites
             mainEditPannel.add(BorderLayout.PAGE_END,spritesPannel);
 
-            /*          GRILLE          */
+//                      GRILLE
             initActionListenner();
             initGrille(); //init
 
@@ -278,4 +308,6 @@ public class GuiEditor  extends JFrame{
     public String getNameSpriteEdit() {
         return nameSpriteEdit;
     }
+
+
 }

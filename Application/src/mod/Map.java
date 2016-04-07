@@ -34,6 +34,12 @@ public class Map extends Observable implements IMap{
     private List<Position> boxStart = new ArrayList<>();
     private Position charStart;
 
+    public Map(char[][] _map,int _width, int _height){
+        map = _map;
+        height = _height;
+        width = _width;
+    }
+
     public Map(String name) {
         final String path = "Levels/"+name+".xml";
 
