@@ -12,6 +12,7 @@ import java.util.Observable;
  */
 public abstract class Element extends Observable {
 
+    //commentaire pour le push
     protected static char[][] map;
 
     protected Element neighborLeft;
