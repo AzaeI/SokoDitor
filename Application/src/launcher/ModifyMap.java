@@ -5,6 +5,8 @@ import gui.GuiMap;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -14,43 +16,61 @@ import static launcher.ComponentSettings.MENU_BUTTON_TEXT;
  * Created by Yohan on 07/04/2016.
  */
 public class ModifyMap extends JPanel {
-    private ArrayList<JButton> buttons = new ArrayList<JButton>();
-
     public ModifyMap(JPanel cards) {
 
-        CardLayout cl               = (CardLayout) cards.getLayout();
-        JButton backToMenuButton    = new JButton(MENU_BUTTON_TEXT);
+        CardLayout cl = (CardLayout) cards.getLayout();
 
-        this.setLayout(new GridLayout(5,0));
-
-        backToMenuButton.addActionListener(e -> cl.show(cards, MENU_BUTTON_TEXT));
-
-        buttons.add(backToMenuButton);
+        JButton buttonReturn = new JButton(ComponentSettings.RETURN_BUTTON_TEXT);
 
         String[] levelNameList = new File("Levels").list();
 
+        JButton maps[] = new JButton[levelNameList.length+1];
+        maps[0] = buttonReturn;
+
         for(int i = 0; i < levelNameList.length; i++) {
             if (levelNameList[i].endsWith(".xml")) {
-                buttons.add(new JButton(levelNameList[i].substring(0, levelNameList[i].length() - 4)));
-                buttons.get(i+1).addActionListener(e -> new GuiEditor( "Levels/"+((JButton)e.getSource()).getText() + ".xml") );
+                maps[i+1] = new JButton(levelNameList[i].substring(0, levelNameList[i].length() - 4));
+                maps[i+1].addActionListener(e -> new GuiEditor( "Levels/"+((JButton)e.getSource()).getText() + ".xml") );
             }
         }
 
-        buttons.forEach(this::add);
+        for (JButton button : maps) {
+            button.setForeground(ComponentSettings.BUTTON_BACKGROUND_COLOR);
+            button.setPreferredSize(new Dimension(500, 100));
+            button.setFont(ComponentSettings.FONT);
+            button.setHorizontalTextPosition(SwingConstants.LEFT);
+            button.setHorizontalAlignment(SwingConstants.LEFT);
+            button.setBorderPainted(false);
+            button.setFocusPainted(false);
+            button.setContentAreaFilled(false);
+            button.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    button.setForeground(ComponentSettings.FOREGROUND_COLOR);
+                }
 
-        initColor();
-
-    }
-
-    private void initColor(){
-        //Coloration des boutons
-        for (int i = 0; i < buttons.size(); i++) {
-           /* buttons.get(i).setBackground(MainFrame.soko_button_background);
-            buttons.get(i).setForeground(MainFrame.soko_foreground);
-            buttons.get(i).setFont(MainFrame.font);*/
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    button.setForeground(ComponentSettings.BUTTON_BACKGROUND_COLOR);
+                }
+            });
         }
 
-        //Coloration du fond du panel
-        //this.setBackground(MainFrame.soko_menu_background);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        for (int i=0; i<maps.length; i++) {
+            gbc.gridy = i;
+            gbc.gridheight = 1;
+            gbc.gridwidth = 1;
+            this.add(maps[i], gbc);
+        }
+
+        this.setBackground(ComponentSettings.MENU_BACKGROUND);
+
+        buttonReturn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cl.show(cards, ComponentSettings.EDITOR_TITLE);
+            }
+        });
     }
 }
