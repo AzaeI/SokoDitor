@@ -1,10 +1,9 @@
 package gui;
 
-import ctrl.AElement;
+import mod.AElement;
 import mod.ButtonEdit;
 import mod.Map;
 import mod.Vide;
-import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -21,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.*;
 
 import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -132,7 +130,7 @@ public class GuiEditor  extends JFrame{
                 initGrille(); //init
             }else{
                 Map m = new Map (path);
-                AElement ObjectMap[][] = m.getMapObject();
+//                AElement ObjectMap[][] = m.getMapObject();
                 hauteur = m.getHeight();
                 largeur =  m.getWidth();
                 grid = new GridLayout(hauteur,largeur);
@@ -140,7 +138,7 @@ public class GuiEditor  extends JFrame{
                 mapGenerate = new ButtonEdit[m.getHeight()][m.getWidth()];
                 for (int i = 0; i < m.getHeight();i++){
                     for (int j = 0; j < m.getWidth(); j++){
-                        mapGenerate[i][j] = new ButtonEdit(ObjectMap[i][j]);
+//                        mapGenerate[i][j] = new ButtonEdit(ObjectMap[i][j]);
                         mapGenerate[i][j].addActionListener(listennerChoiceElemt);
                         mapEditPannel.add(mapGenerate[i][j]);
                     }

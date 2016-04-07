@@ -1,6 +1,8 @@
 package launcher;
 
+import gui.GuiGame;
 import gui.GuiMap;
+import mod.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +34,7 @@ public class Player extends JPanel {
         for(int i = 0; i < levelNameList.length; i++) {
             if (levelNameList[i].endsWith(".xml")) {
                 buttons.add(new JButton(levelNameList[i].substring(0, levelNameList[i].length() - 4)));
-                buttons.get(i+1).addActionListener(e -> new GuiMap(((JButton)e.getSource()).getText()));
+                buttons.get(i+1).addActionListener(e -> new GuiGame(new Game(new mod.Map(((JButton)e.getSource()).getText()))));
             }
         }
 

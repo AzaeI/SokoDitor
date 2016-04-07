@@ -1,4 +1,6 @@
-package ctrl;
+package mod;
+
+import ctrl.IElement;
 
 /**
  * Created by Yohan on 10/03/2016.
