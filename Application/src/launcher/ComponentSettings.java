@@ -73,6 +73,18 @@ public class ComponentSettings {
      *************************************************************************/
 
     static final String SETTINGS_TITLE  = "Settings";
+    static final String SETTINGS_RESET = "Valeurs par defaut";
+    static final String SETTINGS_SOUND = "Options sonores";
+    static final String SETTINGS_SOUND_MUTE = "Desactiver le son";
+    static final String SETTINGS_SOUND_UNMUTE = "Activer le son";
+    static final String SETTINGS_TEXTURES = "Choix Textures";
+    static final String SETTINGS_TEXTURES_CAISSE = "Texture caisse";
+    static final String SETTINGS_TEXTURES_CAISSE_OK = "Texture caisse en place";
+    static final String SETTINGS_TEXTURES_PERSO = "Texture personage";
+    static final String SETTINGS_TEXTURES_DOCK = "Texture emplacement caisse";
+    static final String SETTINGS_TEXTURES_SOL = "Texture sol";
+    static final String SETTINGS_TEXTURES_WALL = "Texture mur";
+    static final String SETTINGS_USER = "Compte utilisateur";
     static final String SETTINGS_BUTTON_TEXT = "Options";
 
     /*************************************************************************
@@ -89,7 +101,6 @@ public class ComponentSettings {
 
     static final String SIGNUP_TITLE  = "Sign up";
     static final String SIGNUP_BUTTON_TEXT = "S'inscrire";
-
 
     /*************************************************************************
      *                              EXIT
