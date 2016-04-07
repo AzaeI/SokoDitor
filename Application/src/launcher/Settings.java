@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static launcher.ComponentSettings.MENU_BUTTON_TEXT;
+
 
 public class Settings extends JPanel {
 
@@ -88,10 +90,7 @@ public class Settings extends JPanel {
         buttonReturnM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                display_options(buttons, false);
-                display_options(buttonsGenerals, true);
-                itself.setVisible(false);
-                // MainFrame.SetScreen(MainFrame.mainMenu);
+                cl.show(cards, MENU_BUTTON_TEXT);
             }
         });
 
@@ -188,8 +187,6 @@ public class Settings extends JPanel {
                 // put the return somewhere usefull
             }
         });
-
-        this.setVisible(true);
     }
 
     void display_options(JButton[] options, boolean display) {

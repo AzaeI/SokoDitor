@@ -20,26 +20,57 @@ public class Editor extends JPanel {
 
         CardLayout cl = (CardLayout) cards.getLayout();
 
-        this.setLayout(new GridLayout(5,0));
+        JButton buttonReturn            = new JButton(ComponentSettings.RETURN_BUTTON_TEXT);
+        JButton buttonNewMap            = new JButton(ComponentSettings.NEW_MAP_TEXT_BUTTON);
+        JButton buttonEditMap           = new JButton(ComponentSettings.MODIFY_MAP_TEXT_BUTTON);
 
-        //Initialisation des boutons
-        JButton menuButton = new JButton(MENU_BUTTON_TEXT);
-        JButton newMapButton = new JButton(NEW_MAP_TEXT_BUTTON);
-        JButton modifyMapButton = new JButton(MODIFY_MAP_TEXT_BUTTON);
+        JButton buttons[] = { buttonReturn, buttonNewMap, buttonEditMap};
 
-        menuButton.addActionListener(new ActionListener() {
+        for (JButton button : buttons) {
+            button.setForeground(ComponentSettings.BUTTON_BACKGROUND_COLOR);
+            button.setPreferredSize(new Dimension(500, 100));
+            button.setFont(ComponentSettings.FONT);
+            button.setHorizontalTextPosition(SwingConstants.LEFT);
+            button.setHorizontalAlignment(SwingConstants.LEFT);
+            button.setBorderPainted(false);
+            button.setFocusPainted(false);
+            button.setContentAreaFilled(false);
+            button.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    button.setForeground(ComponentSettings.FOREGROUND_COLOR);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    button.setForeground(ComponentSettings.BUTTON_BACKGROUND_COLOR);
+                }
+            });
+        }
+
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        for (int i=0; i<buttons.length; i++) {
+            gbc.gridy = i;
+            gbc.gridheight = 1;
+            gbc.gridwidth = 1;
+            this.add(buttons[i], gbc);
+        }
+
+        this.setBackground(ComponentSettings.MENU_BACKGROUND);
+
+        buttonReturn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cl.show(cards, MENU_BUTTON_TEXT);
             }
         });
-        newMapButton.addActionListener(new ActionListener() {
+        buttonNewMap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 new GuiEditor(null);
             }
         });
-        modifyMapButton.addActionListener(new ActionListener() {
+        buttonEditMap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cl.show(cards,"Modifier Map");
@@ -47,25 +78,5 @@ public class Editor extends JPanel {
         });
 
 
-        buttons.add(menuButton);
-        buttons.add(newMapButton);
-        buttons.add(modifyMapButton);
-
-        initColor();
-
-        buttons.forEach(this::add);
-
-    }
-
-    private void initColor(){
-        //Coloration des boutons
-        for (int i = 0; i < buttons.size(); i++) {
-           // buttons.get(i).setBackground(MainFrame.soko_button_background);
-           // buttons.get(i).setForeground(MainFrame.soko_foreground);
-            //buttons.get(i).setFont(MainFrame.font);
-        }
-
-        //Coloration du fond du panel
-        //this.setBackground(MainFrame.soko_menu_background);
     }
 }
