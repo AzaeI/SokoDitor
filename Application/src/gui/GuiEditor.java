@@ -253,6 +253,10 @@ public class GuiEditor  extends JFrame{
                         }
                         level.appendChild(LCourrant);
                     }
+                    if (!haveAnChar){
+                        showMessageDialog(null, "Il dois y avoir au moins un personnage...");
+                        return;
+                    }
 
                     racine.appendChild(level);
                     document.appendChild(racine);
