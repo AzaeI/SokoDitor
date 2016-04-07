@@ -1,8 +1,6 @@
 package launcher;
 
-import storage.dao.factory.DAOFactory;
-import storage.dao.factory.FactoryType;
-import util.SQLConnection;
+import storage.jdbc.MySqlConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,7 +68,7 @@ class Downloader extends JPanel {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SQLConnection.getInstance();
+                MySqlConnection.getInstance();
             }
         });
 
