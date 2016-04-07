@@ -69,7 +69,6 @@ public class GuiEditor  extends JFrame{
     private GuiEditor itself;
 
     private AElement elmtToSubmit = new Vide();
-    private boolean sema = true;
 
     public GuiEditor(String path){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -196,11 +195,7 @@ public class GuiEditor  extends JFrame{
         listennerChoiceElemt = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sema = true;
-                GuiChoiceElmt f = new GuiChoiceElmt(itself);
-                //while(sema);
-                ((ButtonEdit)e.getSource()).setElmt(elmtToSubmit);
-                ((ButtonEdit)e.getSource()).updateTexture();
+                GuiChoiceElmt f = new GuiChoiceElmt(itself, (ButtonEdit)e.getSource());
             }
         };
         buttonGenerer.addActionListener(new ActionListener() {
@@ -258,6 +253,10 @@ public class GuiEditor  extends JFrame{
                         }
                         level.appendChild(LCourrant);
                     }
+                    if (!haveAnChar){
+                        showMessageDialog(null, "Il dois y avoir au moins un personnage...");
+                        return;
+                    }
 
                     racine.appendChild(level);
                     document.appendChild(racine);
@@ -308,10 +307,6 @@ public class GuiEditor  extends JFrame{
                 showMessageDialog(null, "Pour valider la hauteur ou la largeur de la grille,\nil suffit d'appuyer sur entrée, une fois la valeur mise.");
             }
         });
-    }
-
-    public void setElmtToSubmit(AElement elmtToSubmit) {
-        this.elmtToSubmit = elmtToSubmit;
     }
 
     private void initPannelEditionParama(){
