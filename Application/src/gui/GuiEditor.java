@@ -2,6 +2,7 @@ package gui;
 
 import ctrl.AElement;
 import mod.ButtonEdit;
+import mod.Map;
 import mod.Vide;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -68,9 +69,8 @@ public class GuiEditor  extends JFrame{
     private GuiEditor itself;
 
     private AElement elmtToSubmit = new Vide();
-    private boolean sema = true;
 
-    public GuiEditor(){
+    public GuiEditor(String path){
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -125,12 +125,31 @@ public class GuiEditor  extends JFrame{
             mainEditPannel.add(BorderLayout.PAGE_END,spritesPannel);
 
             /*          GRILLE          */
-            initActionListenner();
-            initGrille(); //init
 
+            initActionListenner();
+
+            if (path == null){
+                initGrille(); //init
+            }else{
+                Map m = new Map (path);
+                AElement ObjectMap[][] = m.getMapObject();
+                hauteur = m.getHeight();
+                largeur =  m.getWidth();
+                grid = new GridLayout(hauteur,largeur);
+                mapEditPannel.setLayout(grid);
+                mapGenerate = new ButtonEdit[m.getHeight()][m.getWidth()];
+                for (int i = 0; i < m.getHeight();i++){
+                    for (int j = 0; j < m.getWidth(); j++){
+                        mapGenerate[i][j] = new ButtonEdit(ObjectMap[i][j]);
+                        mapGenerate[i][j].addActionListener(listennerChoiceElemt);
+                        mapEditPannel.add(mapGenerate[i][j]);
+                    }
+                }
+            }
             menuBar.add(help);
             setJMenuBar(menuBar);
             setVisible(true);
+
         }else{
             showMessageDialog(null, "Vous ne pouvez pas Editer 2 map en même temps !");
         }
@@ -173,6 +192,12 @@ public class GuiEditor  extends JFrame{
                 }
             }
         });
+        listennerChoiceElemt = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GuiChoiceElmt f = new GuiChoiceElmt(itself, (ButtonEdit)e.getSource());
+            }
+        };
         buttonGenerer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -204,7 +229,7 @@ public class GuiEditor  extends JFrame{
                                 case "class mod.Box" :
                                     ligneLv+= '$';
                                     break;
-                                case "class mod.Characeter":
+                                case "class mod.Character":
                                     if (!haveAnChar){
                                         haveAnChar = true;
                                         ligneLv+= '@';
@@ -227,7 +252,11 @@ public class GuiEditor  extends JFrame{
                             LCourrant.appendChild(document.createTextNode(ligneLv));
                         }
                         level.appendChild(LCourrant);
-                     }
+                    }
+                    if (!haveAnChar){
+                        showMessageDialog(null, "Il dois y avoir au moins un personnage...");
+                        return;
+                    }
 
                     racine.appendChild(level);
                     document.appendChild(racine);
@@ -235,7 +264,26 @@ public class GuiEditor  extends JFrame{
                     final TransformerFactory transformerFactory = TransformerFactory.newInstance();
                     final Transformer transformer = transformerFactory.newTransformer();
                     final DOMSource source = new DOMSource(document);
-                    final StreamResult sortie = new StreamResult(new File("Levels/"+nameMap+".xml"));
+
+                    File f = new File("Levels/"+nameMap+".xml");
+                    //test si fichier présent
+                    String[] levelNameList = new File("Levels").list();
+                    for(int i = 0; i < levelNameList.length; i++) {
+                        if (levelNameList[i].endsWith(".xml")) {
+                            if (levelNameList[i].substring(0, levelNameList[i].length() - 4).equals(nameMap)){
+                                int n = JOptionPane.showConfirmDialog(
+                                        itself,
+                                        "Le nom de cette carte est déjà utilisé,\n"+"Voulez vous l'écraser ?",
+                                        "Attention",
+                                        JOptionPane.YES_NO_OPTION);
+                                System.out.println("option : "+n);
+                                //0-> oui 1->non
+                                if (n == 1) return;
+                            }
+                        }
+                    }
+
+                    final StreamResult sortie = new StreamResult(f);
 
                     transformer.setOutputProperty(OutputKeys.VERSION, "1.0");
                     transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
@@ -244,7 +292,6 @@ public class GuiEditor  extends JFrame{
 
                     transformer.transform(source, sortie);
                     itself.dispose();
-
                 } catch (ParserConfigurationException e1) {
                     e1.printStackTrace();
                 } catch (TransformerConfigurationException e) {
@@ -254,30 +301,12 @@ public class GuiEditor  extends JFrame{
                 }
             }
         });
-        listennerChoiceElemt = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sema = true;
-                GuiChoiceElmt f = new GuiChoiceElmt(itself);
-                while(sema);
-                ((ButtonEdit)e.getSource()).setElmt(elmtToSubmit);
-                ((ButtonEdit)e.getSource()).updateTexture();
-            }
-        };
         help.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiHelp g = new GuiHelp();
+                showMessageDialog(null, "Pour valider la hauteur ou la largeur de la grille,\nil suffit d'appuyer sur entrée, une fois la valeur mise.");
             }
         });
-    }
-
-    public void setElmtToSubmit(AElement elmtToSubmit) {
-        this.elmtToSubmit = elmtToSubmit;
-    }
-
-    public void setSema(boolean sema) {
-        this.sema = sema;
     }
 
     private void initPannelEditionParama(){

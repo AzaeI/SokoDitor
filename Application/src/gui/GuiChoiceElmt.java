@@ -20,13 +20,15 @@ public class GuiChoiceElmt extends JFrame {
     private String nameSpriteEdit;
     private int resolution = 128;
     private GuiChoiceElmt itself;
+    private ButtonEdit buttonEdit;
 
     public boolean hasBeenSelected = false;
 
-    protected GuiChoiceElmt(GuiEditor g) {
+    protected GuiChoiceElmt(GuiEditor g, ButtonEdit buttonEdit) {
         nbSprite = g.getNameSprite().size();
         nameSpriteEdit = g.getNameSpriteEdit();
         itself = this;
+        this.buttonEdit = buttonEdit;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int ScreenHeight = (int) screenSize.getHeight();
@@ -69,10 +71,9 @@ public class GuiChoiceElmt extends JFrame {
             a.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    g.setElmtToSubmit(((ButtonEdit) e.getSource()).getElmt());
-                    hasBeenSelected = true;
+                    buttonEdit.setElmt(((ButtonEdit) e.getSource()).getElmt());
+                    buttonEdit.updateTexture();
                     itself.dispose();
-                    g.setSema(false);
                 }
             });
         }

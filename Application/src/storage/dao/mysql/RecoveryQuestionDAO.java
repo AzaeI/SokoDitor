@@ -1,25 +1,26 @@
 package storage.dao.mysql;
 
+import storage.bean.RecoveryQuestion;
 import storage.dao.DAO;
 
-public class RecoveryQuestionDAO extends DAO <RecoveryQuestionDAO>{
+public class RecoveryQuestionDAO extends DAO <RecoveryQuestion>{
     @Override
-    public RecoveryQuestionDAO get(long id) {
+    public RecoveryQuestion get(long id) {
         return null;
     }
 
     @Override
-    public RecoveryQuestionDAO create(RecoveryQuestionDAO object) {
+    public RecoveryQuestion create(RecoveryQuestion object) {
         return null;
     }
 
     @Override
-    public RecoveryQuestionDAO update(RecoveryQuestionDAO object) {
+    public RecoveryQuestion update(RecoveryQuestion object) {
         return null;
     }
 
     @Override
-    public void delete(RecoveryQuestionDAO object) {
+    public void delete(RecoveryQuestion object) {
 
     }
 }

@@ -1,4 +1,4 @@
-package luncher;
+package launcher;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
@@ -7,8 +7,9 @@ import java.io.File;
  * Created by azer on 17/03/2016.
  */
 public class MonFiltre extends FileFilter {
-    String [] lesSuffixes;
-    String  laDescription;
+    private String [] lesSuffixes;
+    private String  laDescription;
+
     public MonFiltre(String []lesSuffixes,
                      String laDescription){
         this.lesSuffixes = lesSuffixes;
