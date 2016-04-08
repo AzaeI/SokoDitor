@@ -1,7 +1,6 @@
 package gui;
 
 
-import ctrl.AElement;
 import mod.Box;
 import mod.*;
 import mod.Character;
@@ -45,10 +44,10 @@ public class GuiChoiceElmt extends JFrame {
             ImageIcon img = new ImageIcon(nameSpriteEdit + "/" + g.getNameSprite().get(i) + ".png");
             switch (g.getNameSprite().get(i)) {
                 case "BoxKO":
-                    a = new ButtonEdit(new Box(), g.getNameSprite().get(i));
+                    //a = new ButtonEdit(new Box(), g.getNameSprite().get(i));
                     break;
                 case "Chara":
-                    a = new ButtonEdit(new Character(), g.getNameSprite().get(i));
+                    //a = new ButtonEdit(new Character(), g.getNameSprite().get(i));
                     break;
                 case "Goal":
                     a = new ButtonEdit(new Goal(), g.getNameSprite().get(i));

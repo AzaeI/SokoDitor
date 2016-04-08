@@ -1,12 +1,17 @@
 package util;
 
 /**
- * Created by Yohan on 03/03/2016.
+ * Created by DoubleVV on 03/03/2016.
  */
 public class Position {
 
     private int x;
     private int y;
+
+    public Position(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 
     public int getX(){
         return x;
