@@ -47,12 +47,26 @@ public class UserDAO extends DAO<User> {
             e.printStackTrace();
         }
         return user;
-
     }
 
     @Override
     public User update(User object) {
-        return null;
+        User user = new User();
+        try {
+            ResultSet result = this.connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("UPDATE Users SET id=?,mail=?,username=?,password=?,salt=?,account_activated=? WHERE 1");
+            if (result.first())
+                user.setId(result.getInt("id"));
+            user.setAccount_activated(result.getBoolean("account_activated"));
+            user.setMail(result.getString("mail"));
+            user.setPassword(result.getString("password"));
+            user.setUsername(result.getString("username"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+
     }
 
     @Override
