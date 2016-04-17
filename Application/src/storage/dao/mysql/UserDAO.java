@@ -71,7 +71,7 @@ public class UserDAO extends DAO<User> {
 
     @Override
     public User create(User object) {
-        User user = null;
+        User user;
         try {
             user  = new User();
             PreparedStatement prepare = this.connection

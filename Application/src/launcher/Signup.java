@@ -21,10 +21,12 @@ public class Signup extends JPanel{
     private JTextField question1Field = new JTextField();
     private JTextField question2Field = new JTextField();
     private JLabel error = new JLabel("");
+    private JPanel cards;
+    private CardLayout cl;
 
     public Signup(JPanel cards) {
-
-        CardLayout cl = (CardLayout) cards.getLayout();
+        this.cards = cards;
+        cl = (CardLayout) cards.getLayout();
         this.setBackground(Color.black);
 
         //Initialisation des boutons
@@ -212,6 +214,9 @@ public class Signup extends JPanel{
                                                 System.out.print("CRASH");
                                             } else {
                                                 DAOFactory.getFactory(FactoryType.MYSQL_DAO).getRecoveryQuestionDAO().commit();
+                                                if(!MainFrame.isConnected())
+                                                    MainFrame.setConnected();
+                                                cl.show(cards, ComponentSettings.MENU_TITLE);
                                             }
                                         }
                                     } else {

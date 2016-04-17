@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class GuiEditor  extends JFrame{
 
     private JMenuBar menuBar = new JMenuBar();
     private JMenuItem help = new JMenuItem("Aide");
+    private JMenuItem back = new JMenuItem("Retour au menu");
 
     private JPanel mainEditPannel = new JPanel();
     private JPanel mapEditPannel = new JPanel();
@@ -69,6 +71,12 @@ public class GuiEditor  extends JFrame{
     private AElement elmtToSubmit = new Vide();
 
     public GuiEditor(String path){
+        this.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth());
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setUndecorated(true);
+
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -144,6 +152,8 @@ public class GuiEditor  extends JFrame{
                     }
                 }
             }
+
+            menuBar.add(back);
             menuBar.add(help);
             setJMenuBar(menuBar);
             setVisible(true);
@@ -303,6 +313,15 @@ public class GuiEditor  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 showMessageDialog(null, "Pour valider la hauteur ou la largeur de la grille,\nil suffit d'appuyer sur entrée, une fois la valeur mise.");
+            }
+        });
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispatchEvent(new WindowEvent(itself, WindowEvent.WINDOW_CLOSING));
             }
         });
     }

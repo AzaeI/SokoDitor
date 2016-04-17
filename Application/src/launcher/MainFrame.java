@@ -8,12 +8,14 @@ import static launcher.ComponentSettings.*;
 
 public class MainFrame extends JFrame {
 
+    private static boolean isConnected = false;
+    private static JPanel cards = new JPanel(new CardLayout());
+
     public MainFrame() throws IOException {
         super("SokoDitor");
         this.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         this.setLocationRelativeTo(null);
 
-        JPanel cards = new JPanel(new CardLayout());
         cards.add(new Menu(cards), MENU_TITLE);
         cards.add(new Player(cards), PLAYER_TITLE);
         cards.add(new Editor(cards), ComponentSettings.EDITOR_TITLE);
@@ -31,5 +33,15 @@ public class MainFrame extends JFrame {
         this.setUndecorated(true);
         this.setVisible(true);
     }
+
+
+    public static boolean isConnected() {
+        return isConnected;
+    }
+
+    public static void setConnected() {
+        isConnected = !isConnected;
+    }
+
 
 }

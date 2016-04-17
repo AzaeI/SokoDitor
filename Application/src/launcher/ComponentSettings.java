@@ -30,6 +30,8 @@ public class ComponentSettings {
         button.setFocusPainted(false);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
+
+        button.setForeground(ComponentSettings.BUTTON_BACKGROUND_COLOR);
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.setForeground(ComponentSettings.FOREGROUND_COLOR);

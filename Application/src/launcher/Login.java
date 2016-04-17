@@ -111,56 +111,58 @@ public class Login extends JPanel {
         this.setVisible(true);
     }
 
-    private void login(String mail, String password){
-        if(isEmailAddressValid(mail)){
+    private void login(String username, String password){
+        if(username.length() >= 6 && username.length() <= 16 && isAlphanum(username)){
             if (password.length() >= 6 && password.length() <= 16){
 
                 byte[] bytesOfMessage;
                 MessageDigest md;
                 byte[] thedigest;
-                User user;
+                User user = new User();
 
                 try {
                     bytesOfMessage = password.getBytes("UTF-8");
                     md = MessageDigest.getInstance("MD5");
                     thedigest = md.digest(bytesOfMessage);
+                    StringBuilder hashString = new StringBuilder();
+                    for (byte aThedigest : thedigest) {
+                        String hex = Integer.toHexString(aThedigest);
+                        if (hex.length() == 1) {
+                            hashString.append('0');
+                            hashString.append(hex.charAt(hex.length() - 1));
+                        } else
+                            hashString.append(hex.substring(hex.length() - 2));
+                    }
+                    user.setUsername(username);
+                    user = DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(user);
 
-                    user = (User) DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(new User());
-
-                    if(user.getPassword().equals(Arrays.toString(thedigest))){
-
+                    if(user.getPassword().equals(hashString.toString())){
+                        if(!MainFrame.isConnected())
+                            MainFrame.setConnected();
                     }
                     else {
-
+                        erreur(passwordField);
                     }
 
                 } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
                     e.printStackTrace();
 
+                    erreur(passwordField);
                 }
 
             }
             else{
-                passwordField.setText("Le mot de passe est incorrect");
-                passwordField.setEchoChar((char) 0);
-                passwordField.addFocusListener(new FocusListener() {
-                    @Override
-                    public void focusGained(FocusEvent e) {
-                        passwordField.setEchoChar((char) 8226);
-                        passwordField.setText("");
-                    }
-                    @Override
-                    public void focusLost(FocusEvent e) {
-                        passwordField.removeFocusListener(this);
-                    }
-                });
+                erreur(passwordField);
             }
         }
         else{
-            usernameField.setText("L'adresse mail est incorrecte");
+            usernameField.setText("Le nom d'utilisateur est incorrect");
+            usernameField.setForeground(Color.red);
             usernameField.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
+
+                    usernameField.setForeground(null);
                     usernameField.setText("");
                 }
                 @Override
@@ -171,13 +173,33 @@ public class Login extends JPanel {
         }
     }
 
-    private boolean isEmailAddressValid(String email) {
-        String regex = "[a-zA-Z.]+@[a-zA-Z]+[.][a-zA-Z]+$";
+    private void erreur(JTextField field){
+
+        passwordField.setText("Le mot de passe est incorrect");
+        passwordField.setEchoChar((char) 0);
+
+        passwordField.setForeground(Color.red);
+        passwordField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                passwordField.setEchoChar((char) 8226);
+
+                usernameField.setForeground(null);
+                passwordField.setText("");
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                passwordField.removeFocusListener(this);
+            }
+        });
+    }
+
+    private boolean isAlphanum(String s){
+        String regex = "[a-zA-Z0-9/éèêà ]*";
 
         Pattern pattern = Pattern.compile(regex);
 
-        Matcher matcher = pattern.matcher(email);
-        System.out.println(email + " : " + matcher.matches());
+        Matcher matcher = pattern.matcher(s);
 
         return matcher.matches();
     }

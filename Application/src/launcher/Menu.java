@@ -1,27 +1,34 @@
 package launcher;
 
+import sun.applet.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 class Menu extends JPanel {
 
-    Menu(JPanel cards) {
+    JButton playButton          = new JButton(ComponentSettings.PLAY_BUTTON_TEXT);
+    JButton editorButton        = new JButton(ComponentSettings.EDITOR_BUTTON_TEXT);
+    JButton downloaderButton    = new JButton(ComponentSettings.DOWNLOADER_BUTTON_TEXT);
+    JButton signupButton        = new JButton(ComponentSettings.SIGNUP_BUTTON_TEXT);
+    JButton loginButton         = new JButton(ComponentSettings.LOGIN_BUTTON_TEXT);
+    JButton settingsButton      = new JButton(ComponentSettings.SETTINGS_TITLE);
+    JButton exitButton          = new JButton(ComponentSettings.EXIT_BUTTON_TEXT);
+    JButton disconnectionButton = new JButton("Deconnexion");
+    JPanel cards;
 
+    Menu(JPanel cards) {
+        this.cards = cards;
         CardLayout cl = (CardLayout) cards.getLayout();
 
-        //Initialisation des boutons
-        JButton playButton      = new JButton(ComponentSettings.PLAY_BUTTON_TEXT);
-        JButton editorButton    = new JButton(ComponentSettings.EDITOR_BUTTON_TEXT);
-        JButton downloaderButton    = new JButton(ComponentSettings.DOWNLOADER_BUTTON_TEXT);
-        JButton signupButton    = new JButton(ComponentSettings.SIGNUP_BUTTON_TEXT);
-        JButton loginButton     = new JButton(ComponentSettings.LOGIN_BUTTON_TEXT);
-        JButton settingsButton  = new JButton(ComponentSettings.SETTINGS_TITLE);
-        JButton exitButton     = new JButton(ComponentSettings.EXIT_BUTTON_TEXT);
-
         //Tableau contenant tous les boutons
-        JButton buttons[] = { playButton, editorButton, downloaderButton, signupButton, loginButton, settingsButton, exitButton };
+        JButton buttons[] = { playButton, editorButton, downloaderButton, signupButton, loginButton, settingsButton, exitButton, disconnectionButton };
 
         //Coloration et insertion des boutons dans la grille
         for (JButton button : buttons) {
@@ -55,9 +62,6 @@ class Menu extends JPanel {
          ********************************************************/
 
         gbc.gridy = j++;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
         this.add(playButton, gbc);
 
 
@@ -66,9 +70,7 @@ class Menu extends JPanel {
          ********************************************************/
 
         gbc.gridy = j++;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
+
         this.add(editorButton, gbc);
 
         /********************************************************
@@ -76,9 +78,6 @@ class Menu extends JPanel {
          ********************************************************/
 
         gbc.gridy = j++;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
         this.add(downloaderButton, gbc);
 
         /********************************************************
@@ -88,6 +87,8 @@ class Menu extends JPanel {
         gbc.gridy = j++;
         //La taille en hauteur et en largeur
         this.add(loginButton, gbc);
+        disconnectionButton.setVisible(false);
+        this.add(disconnectionButton, gbc);
 
 
         /********************************************************
@@ -104,9 +105,6 @@ class Menu extends JPanel {
          ********************************************************/
 
         gbc.gridy = j;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
         this.add(exitButton, gbc);
 
 
@@ -120,8 +118,6 @@ class Menu extends JPanel {
 
         loginButton.addActionListener(e -> cl.show(cards, ComponentSettings.LOGIN_TITLE));
 
-        signupButton.addActionListener(e -> cl.show(cards, ComponentSettings.SIGNUP_TITLE));
-
         playButton.addActionListener(e -> cl.show(cards, ComponentSettings.PLAYER_TITLE));
 
         editorButton.addActionListener(e -> cl.show(cards, ComponentSettings.EDITOR_TITLE));
@@ -130,72 +126,34 @@ class Menu extends JPanel {
 
         exitButton.addActionListener(e -> System.exit(0));
 
+        disconnectionButton.addActionListener(e -> {
+            if(MainFrame.isConnected()){
+
+                MainFrame.setConnected();
+                this.setVisible(false);
+                this.setVisible(true);
+            }
+        });
+        this.addPropertyChangeListener(evt -> {
+
+            if(evt.getPropertyName().equals("visible") && evt.getNewValue().equals(true)){
+                if(MainFrame.isConnected()){
+                    loginButton.setVisible(false);
+                    disconnectionButton.setVisible(true);
+                }
+                else{
+                    loginButton.setVisible(true);
+                    disconnectionButton.setVisible(false);
+                }
+            }
+        });
+
         this.setVisible(true);
     }
 
-
-    private void layoutInit(){
-
-        JButton b1 = new JButton("Salut");
-        b1.setBorderPainted(false);
-        b1.setFocusPainted(false);
-        b1.setContentAreaFilled(true);
-
-        JButton b2 = new JButton("Salut >2");
-        b2.setBorderPainted(false);
-        b2.setFocusPainted(false);
-        b2.setContentAreaFilled(true);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        this.add(b1, gbc);
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        this.add(b2, gbc);
-        //---------------------------------------------
-        /*gbc.gridx = 1;
-        content.add(cell2, gbc);
-        //---------------------------------------------
-        gbc.gridx = 2;
-        content.add(cell3, gbc);
-        //---------------------------------------------
-        //Cette instruction informe le layout que c'est une fin de ligne
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridx = 3;
-        content.add(cell4, gbc);
-        //---------------------------------------------
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 2;
-        //Celle-ci indique que la cellule se réplique de façon verticale
-        gbc.fill = GridBagConstraints.VERTICAL;
-        content.add(cell5, gbc);
-        //---------------------------------------------
-        gbc.gridx = 1;
-        gbc.gridheight = 1;
-        //Celle-ci indique que la cellule se réplique de façon horizontale
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        content.add(cell6, gbc);
-        //---------------------------------------------
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        content.add(cell7, gbc);
-        //---------------------------------------------
-        gbc.gridx = 3;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        content.add(cell8, gbc);*/
+    public void setVisible(boolean b) {
+        boolean visible = isVisible();
+        super.setVisible(b);
+        firePropertyChange("visible", visible, b);
     }
-
 }
