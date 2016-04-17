@@ -15,11 +15,10 @@ public class MySqlConnection {
     private static Connection connect;
 
     public static Connection getInstance() {
-        System.out.println("Tentative de connection");
         if (connect == null) {
             try {
                 connect = DriverManager.getConnection(url, user, passwd);
-                System.out.println("Connection réussi");
+                connect.setAutoCommit(false);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

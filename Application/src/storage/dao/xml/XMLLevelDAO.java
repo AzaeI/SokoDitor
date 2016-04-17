@@ -3,6 +3,8 @@ package storage.dao.xml;
 import storage.bean.Level;
 import storage.dao.DAO;
 
+import java.util.ArrayList;
+
 public class XMLLevelDAO extends DAO<Level>{
 
     @Override
@@ -17,6 +19,11 @@ public class XMLLevelDAO extends DAO<Level>{
 
     @Override
     public Level update(Level object) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Level> list(Level object) {
         return null;
     }
 

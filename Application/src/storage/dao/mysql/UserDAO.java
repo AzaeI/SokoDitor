@@ -6,12 +6,13 @@ import storage.dao.DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserDAO extends DAO<User> {
 
     @Override
     public User get(User user) {
-        if(user.getUsername() != null || user.getMail() != null){
+        if(user.getUsername() != null){
             user = get(user.getUsername());
         }
         else{
@@ -21,46 +22,73 @@ public class UserDAO extends DAO<User> {
     }
 
     public User get(String username){
-        return new User();
+        User user;
+        try {
+
+            user = new User();
+            ResultSet result = this.connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Users WHERE username = '" + username+"'");
+
+            if (result.first()){
+                user.setId(result.getInt("id"));
+                user.setAccount_activated(result.getBoolean("account_activated"));
+                user.setPassword(result.getString("password"));
+                user.setUsername(result.getString("username"));
+            }
+            else
+                return null;
+
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public User get(long id){
-        User user = new User();
+        User user;
         try {
+            user  = new User();
             ResultSet result = this.connection.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Users WHERE id = " + id);
-            if (result.first())
+            if (result.first()){
                 user.setId(result.getInt("id"));
-            user.setAccount_activated(result.getBoolean("account_activated"));
-            user.setMail(result.getString("mail"));
-            user.setPassword(result.getString("password"));
-            user.setUsername(result.getString("username"));
+                user.setAccount_activated(result.getBoolean("account_activated"));
+                user.setPassword(result.getString("password"));
+                user.setUsername(result.getString("username"));
+            }
+            else
+                throw new SQLException();
+
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return user;
     }
 
     @Override
     public User create(User object) {
-        User user = new User();
+        User user = null;
         try {
+            user  = new User();
             PreparedStatement prepare = this.connection
                     .prepareStatement(
-                            "INSERT INTO Users (username,mail, password) VALUES(?, ?, ?)"
+                            "INSERT INTO Users (username, password) VALUES(?, ?)"
                     );
             prepare.setString(1, object.getUsername());
-            prepare.setString(2, object.getMail());
-            prepare.setString(3, object.getPassword());
+            prepare.setString(2, object.getPassword());
             user.setUsername(object.getUsername());
-            user.setMail(object.getMail());
             user.setPassword(object.getPassword());
             prepare.execute();
+            user = get(user.getUsername());
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return user;
     }
 
     @Override
@@ -69,18 +97,23 @@ public class UserDAO extends DAO<User> {
         try {
             ResultSet result = this.connection.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY).executeQuery("UPDATE Users SET id=?,mail=?,username=?,password=?,salt=?,account_activated=? WHERE 1");
-            if (result.first())
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("UPDATE Users SET id=?,username=?,password=?,account_activated=? WHERE 1");
+            if (result.first()){
                 user.setId(result.getInt("id"));
-            user.setAccount_activated(result.getBoolean("account_activated"));
-            user.setMail(result.getString("mail"));
-            user.setPassword(result.getString("password"));
-            user.setUsername(result.getString("username"));
+                user.setAccount_activated(result.getBoolean("account_activated"));
+                user.setPassword(result.getString("password"));
+                user.setUsername(result.getString("username"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return user;
 
+    }
+
+    @Override
+    public ArrayList<User> list(User object) {
+        return null;
     }
 
     @Override

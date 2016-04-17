@@ -3,6 +3,8 @@ package storage.dao.mysql;
 import storage.bean.Level;
 import storage.dao.DAO;
 
+import java.util.ArrayList;
+
 public class LevelDAO extends DAO<Level>{
 
     @Override
@@ -17,6 +19,11 @@ public class LevelDAO extends DAO<Level>{
 
     @Override
     public Level update(Level object) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Level> list(Level object) {
         return null;
     }
 

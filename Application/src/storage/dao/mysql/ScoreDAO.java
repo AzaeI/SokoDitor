@@ -3,6 +3,8 @@ package storage.dao.mysql;
 import storage.bean.Score;
 import storage.dao.DAO;
 
+import java.util.ArrayList;
+
 public class ScoreDAO extends DAO <Score> {
     @Override
     public Score get(Score score) {
@@ -16,6 +18,11 @@ public class ScoreDAO extends DAO <Score> {
 
     @Override
     public Score update(Score object) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Score> list(Score object) {
         return null;
     }
 

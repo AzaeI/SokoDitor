@@ -3,6 +3,8 @@ package storage.dao.mysql;
 import storage.bean.Feedback;
 import storage.dao.DAO;
 
+import java.util.ArrayList;
+
 public class FeedBackDAO extends DAO<Feedback>{
 
     @Override
@@ -17,6 +19,11 @@ public class FeedBackDAO extends DAO<Feedback>{
 
     @Override
     public Feedback update(Feedback object) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Feedback> list(Feedback object) {
         return null;
     }
 

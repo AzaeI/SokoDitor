@@ -33,4 +33,5 @@ public class DAOFactory extends AbstractDAOFactory {
     public DAO<RecoveryQuestion> getRecoveryQuestionDAO() {
         return new RecoveryQuestionDAO();
     }
+
 }

@@ -151,8 +151,12 @@ public class ComponentSettings {
 
     static final String SIGNUP_TITLE            = "Sign up";
     static final String SIGNUP_BUTTON_TEXT      = "S'enregistrer";
-    static final String[] RECOVERY_QUESTIONS    = {"Question 1", "Question 2", "Question 3", "Question 4",
-            "Question 5", "Question 6", "Question 7", "Question 8", "Question 9", "Question 10"};
+    static final String[] RECOVERY_QUESTIONS    = {"Le nom de votre premier animal de compagnie",
+            "Nom de jeune fille de votre mère",
+            "Le nom de votre école primaire",
+            "La marque de votre première voiture",
+            "Votre film préféré"
+    };
 
     /*************************************************************************
      *                              EXIT
