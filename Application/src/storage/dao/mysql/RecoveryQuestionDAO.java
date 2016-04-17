@@ -5,7 +5,7 @@ import storage.dao.DAO;
 
 public class RecoveryQuestionDAO extends DAO <RecoveryQuestion>{
     @Override
-    public RecoveryQuestion get(long id) {
+    public RecoveryQuestion get(RecoveryQuestion recoveryQuestion) {
         return null;
     }
 

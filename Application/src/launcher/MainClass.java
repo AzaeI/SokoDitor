@@ -1,7 +1,13 @@
 package launcher;
 
+import java.io.IOException;
+
 public class MainClass {
     public static void main(String[] args){
-        new MainFrame();
+        try {
+            new MainFrame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,7 +5,7 @@ import storage.dao.DAO;
 
 public class ScoreDAO extends DAO <Score> {
     @Override
-    public Score get(long id) {
+    public Score get(Score score) {
         return null;
     }
 

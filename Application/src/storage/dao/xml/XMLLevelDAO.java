@@ -6,7 +6,7 @@ import storage.dao.DAO;
 public class XMLLevelDAO extends DAO<Level>{
 
     @Override
-    public Level get(long id) {
+    public Level get(Level level) {
         return null;
     }
 

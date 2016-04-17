@@ -8,7 +8,7 @@ public abstract class DAO<T> {
 
     public Connection connection = MySqlConnection.getInstance();
 
-    public abstract T get (long id);
+    public abstract T get (T object);
 
     public abstract T create (T object);
 

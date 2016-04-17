@@ -6,12 +6,12 @@ import java.sql.SQLException;
 
 public class MySqlConnection {
 
-    private static String host = "mysql.alwaysdata.com";
-    private static String port = "3306";
-    private static String database = "elekhyr_sokoditor";
-    private static String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
-    private static String user = "elekhyr_reader";
-    private static String passwd = "reader";
+    private static final String host = "mysql.alwaysdata.com";
+    private static final String port = "3306";
+    private static final String database = "elekhyr_sokoditor";
+    private static final String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
+    private static final String user = "elekhyr_reader";
+    private static final String passwd = "reader";
     private static Connection connect;
 
     public static Connection getInstance() {
@@ -19,11 +19,11 @@ public class MySqlConnection {
         if (connect == null) {
             try {
                 connect = DriverManager.getConnection(url, user, passwd);
+                System.out.println("Connection réussi");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("Connection réussi");
         return connect;
     }
 }

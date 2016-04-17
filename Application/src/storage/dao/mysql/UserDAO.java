@@ -10,7 +10,21 @@ import java.sql.SQLException;
 public class UserDAO extends DAO<User> {
 
     @Override
-    public User get(long id) {
+    public User get(User user) {
+        if(user.getUsername() != null || user.getMail() != null){
+            user = get(user.getUsername());
+        }
+        else{
+            user = get(user.getId());
+        }
+        return user;
+    }
+
+    public User get(String username){
+        return new User();
+    }
+
+    public User get(long id){
         User user = new User();
         try {
             ResultSet result = this.connection.createStatement(

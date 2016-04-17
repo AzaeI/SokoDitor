@@ -47,11 +47,14 @@ class Menu extends JPanel {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
+
+        int j = 0;
+
         /********************************************************
          *                      PLAY BUTTON
          ********************************************************/
 
-        gbc.gridy = 0;
+        gbc.gridy = j++;
         //La taille en hauteur et en largeur
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
@@ -62,7 +65,7 @@ class Menu extends JPanel {
          *                      EDITOR BUTTON
          ********************************************************/
 
-        gbc.gridy = 1;
+        gbc.gridy = j++;
         //La taille en hauteur et en largeur
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
@@ -72,27 +75,17 @@ class Menu extends JPanel {
          *                      DOWNLOADER BUTTON
          ********************************************************/
 
-        gbc.gridy = 2;
+        gbc.gridy = j++;
         //La taille en hauteur et en largeur
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         this.add(downloaderButton, gbc);
 
-
-        /********************************************************
-         *                      SIGNUP BUTTON
-         ********************************************************/
-
-        gbc.gridy = 3;
-        //La taille en hauteur et en largeur
-        this.add(signupButton, gbc);
-
-
         /********************************************************
          *                      LOGIN BUTTON
          ********************************************************/
 
-        gbc.gridy = 4;
+        gbc.gridy = j++;
         //La taille en hauteur et en largeur
         this.add(loginButton, gbc);
 
@@ -101,7 +94,7 @@ class Menu extends JPanel {
          *                      SETTINGS BUTTON
          ********************************************************/
 
-        gbc.gridy = 5;
+        gbc.gridy = j++;
         //La taille en hauteur et en largeur
         this.add(settingsButton, gbc);
 
@@ -110,7 +103,7 @@ class Menu extends JPanel {
          *                      EXIT BUTTON
          ********************************************************/
 
-        gbc.gridy = 6;
+        gbc.gridy = j;
         //La taille en hauteur et en largeur
         gbc.gridheight = 1;
         gbc.gridwidth = 1;

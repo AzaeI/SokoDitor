@@ -6,7 +6,7 @@ import storage.dao.DAO;
 public class FeedBackDAO extends DAO<Feedback>{
 
     @Override
-    public Feedback get(long id) {
+    public Feedback get(Feedback feedback) {
         return null;
     }
 

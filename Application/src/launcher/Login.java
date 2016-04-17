@@ -18,72 +18,77 @@ import java.util.regex.Pattern;
 
 public class Login extends JPanel {
 
-    private final static String text_button_back = "Retourner en arriere";
-    private final static String text_button_login = "Se Connecter";
-
     private JTextField usernameField;
     private JPasswordField passwordField;
 
     public Login(JPanel cards) {
         CardLayout cl = (CardLayout) cards.getLayout();
 
+        this.setBackground(ComponentSettings.BACKGROUND_COLOR);
+
         //Initialisation des boutons
-        JButton loginButton     = new JButton(text_button_login);
+        JButton loginButton     = new JButton(ComponentSettings.LOGIN_BUTTON_TEXT);
         JButton backButton      = new JButton();
-        JButton signupButton    = new JButton("Signup");
+        JButton signupButton    = new JButton(ComponentSettings.GO_SIGNUP_BUTTON_TEXT);
 
         //Initialisation des textes
-        JLabel usernameArea = new JLabel("Nom d'utilisateur ");
-        JLabel passwordArea = new JLabel("Mot de passe");
+        JLabel usernameLabel = new JLabel(ComponentSettings.USERNAME_LABEL);
+        JLabel passwordLabel = new JLabel(ComponentSettings.PASSWORD_LABEL);
         usernameField = new JTextField("");
         passwordField = new JPasswordField("");
 
-        backButton.setOpaque(false);
-        backButton.setFocusPainted(false);
-        backButton.setBorderPainted(false);
-        backButton.setContentAreaFilled(false);
-        backButton.setPreferredSize(new Dimension(usernameArea.getMinimumSize()));
-        backButton.setHorizontalAlignment(SwingConstants.LEFT);
-        Image img = new ImageIcon("Icones/back.ico").getImage().getScaledInstance(20,20, Image.SCALE_AREA_AVERAGING);
-        backButton.setIcon(new ImageIcon(img));
+        usernameLabel.setFont(ComponentSettings.FONT);
+        passwordLabel.setFont(ComponentSettings.FONT);
 
-        passwordArea.setPreferredSize(usernameArea.getMinimumSize());
+        ComponentSettings.initializeDefaultButton(signupButton);
+        ComponentSettings.initializeDefaultButton(loginButton);
+        ComponentSettings.initializeBackButton(backButton);
+
+        passwordLabel.setPreferredSize(usernameLabel.getMinimumSize());
 
         usernameField.setPreferredSize(new Dimension(200,20));
         passwordField.setPreferredSize(new Dimension(200,20));
 
-        usernameArea.setHorizontalAlignment(SwingConstants.LEFT);
-        passwordArea.setHorizontalAlignment(SwingConstants.LEFT);
+        usernameLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
-
+        gbc.anchor = GridBagConstraints.WEST;
         int i = 0;
         int j = 0;
 
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
 
+
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = i;
         gbc.gridy = j++;
         this.add(backButton, gbc);
 
         gbc.gridx = i++;
         gbc.gridy = j;
-        this.add(usernameArea, gbc);
+        this.add(usernameLabel, gbc);
 
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.gridx = i--;
         gbc.gridy = j++;
         this.add(usernameField, gbc);
 
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = i++;
         gbc.gridy = j;
-        this.add(passwordArea, gbc);
+        this.add(passwordLabel, gbc);
 
+
+        gbc.anchor = GridBagConstraints.EAST;
         gbc.gridx = i--;
         gbc.gridy = j++;
         this.add(passwordField, gbc);
 
+
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = i++;
         gbc.gridy = j;
         this.add(signupButton, gbc);
@@ -99,16 +104,12 @@ public class Login extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 login(usernameField.getText(), String.valueOf(passwordField.getPassword()));
             }
         });
 
-
         this.setVisible(true);
     }
-
-
 
     private void login(String mail, String password){
         if(isEmailAddressValid(mail)){
@@ -124,7 +125,7 @@ public class Login extends JPanel {
                     md = MessageDigest.getInstance("MD5");
                     thedigest = md.digest(bytesOfMessage);
 
-                    user = (User) DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(0);
+                    user = (User) DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(new User());
 
                     if(user.getPassword().equals(Arrays.toString(thedigest))){
 
