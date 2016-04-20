@@ -138,7 +138,7 @@ public class GuiEditor  extends JFrame{
                 initGrille(); //init
             }else{
                 Map m = new Map (path);
-//                AElement ObjectMap[][] = m.getMapObject();
+                char ObjectMap[][] = m.getCharMap();
                 hauteur = m.getHeight();
                 largeur =  m.getWidth();
                 grid = new GridLayout(hauteur,largeur);
@@ -146,7 +146,7 @@ public class GuiEditor  extends JFrame{
                 mapGenerate = new ButtonEdit[m.getHeight()][m.getWidth()];
                 for (int i = 0; i < m.getHeight();i++){
                     for (int j = 0; j < m.getWidth(); j++){
-//                        mapGenerate[i][j] = new ButtonEdit(ObjectMap[i][j]);
+                        mapGenerate[i][j] = new ButtonEdit(ObjectMap[i][j]);
                         mapGenerate[i][j].addActionListener(listennerChoiceElemt);
                         mapEditPannel.add(mapGenerate[i][j]);
                     }
@@ -165,7 +165,7 @@ public class GuiEditor  extends JFrame{
     public void printGridLayout(){
         for (int i = 0; i < hauteur;i++ ){
             for (int j = 0; j < largeur; j++){
-                System.out.print(mapGenerate[i][j].getElmt().getClass().toString()+" - ");
+//                System.out.print(mapGenerate[i][j].getElmt().getClass().toString()+" - ");
             }
             System.out.println();
         }
@@ -230,14 +230,14 @@ public class GuiEditor  extends JFrame{
                         Element LCourrant = document.createElement("L"+(i+1));
                         for (int j = 0; j < largeur; j++){
                             String ligneLv = "";
-                            switch (mapGenerate[i][j].getElmt().getClass().toString()){
-                                case "class mod.Vide" :
+                            switch (mapGenerate[i][j].getElmt()){
+                                case ';' :
                                     ligneLv+= ';';
                                     break;
-                                case "class mod.Box" :
+                                case '$' :
                                     ligneLv+= '$';
                                     break;
-                                case "class mod.Character":
+                                case '@':
                                     if (!haveAnChar){
                                         haveAnChar = true;
                                         ligneLv+= '@';
@@ -247,13 +247,13 @@ public class GuiEditor  extends JFrame{
                                         return;
                                     }
                                     break;
-                                case "class mod.Floor" :
+                                case ',' :
                                     ligneLv+= ',';
                                     break;
-                                case "class mod.Goal" :
+                                case '.' :
                                     ligneLv+= '.';
                                     break;
-                                case "class mod.Wall" :
+                                case '#' :
                                     ligneLv+= '#';
                                     break;
                             }
@@ -377,7 +377,7 @@ public class GuiEditor  extends JFrame{
         mapGenerate = new ButtonEdit[hauteur][largeur];
         for (int i = 0; i < hauteur;i++){
             for (int j = 0; j < largeur; j++){
-                AElement v = new Vide();
+                char v = ';';
                 mapGenerate[i][j] = new ButtonEdit(v);
                 mapGenerate[i][j].addActionListener(listennerChoiceElemt);
                 mapEditPannel.add(mapGenerate[i][j]);
@@ -391,7 +391,7 @@ public class GuiEditor  extends JFrame{
         mapEditPannel.removeAll();
         for (int i = 0; i < hauteur;i++){
             for (int j = 0; j < largeur; j++){
-                AElement v = new Vide();
+                char v = ';';
                 mapGenerate[i][j] = new ButtonEdit(v);
                 mapGenerate[i][j].addActionListener(listennerChoiceElemt);
                 mapEditPannel.add(mapGenerate[i][j]);

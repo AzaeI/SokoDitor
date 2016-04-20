@@ -36,7 +36,7 @@ public class ModifyMap extends JPanel {
         for(int i = 0; i < levelNameList.length; i++) {
             if (levelNameList[i].endsWith(".xml")) {
                 maps[i+2] = new JButton(levelNameList[i].substring(0, levelNameList[i].length() - 4));
-                maps[i+2].addActionListener(e -> new GuiEditor( "Levels/"+((JButton)e.getSource()).getText() + ".xml") );
+                maps[i+2].addActionListener(e -> new GuiEditor(((JButton)e.getSource()).getText()));
             }
         }
 
