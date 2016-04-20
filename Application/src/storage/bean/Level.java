@@ -2,11 +2,14 @@ package storage.bean;
 
 import org.w3c.dom.Document;
 
+import java.io.File;
+import java.io.InputStream;
+
 public class Level {
     private long id;
     private String name;
     private String user;
-    private Document file;
+    private InputStream file;
     private int rank;
     private boolean is_genuine;
 
@@ -34,11 +37,11 @@ public class Level {
         this.user = user;
     }
 
-    public Document getFile() {
+    public InputStream getFile() {
         return file;
     }
 
-    public void setFile(Document file) {
+    public void setFile(InputStream file) {
         this.file = file;
     }
 

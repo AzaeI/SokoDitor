@@ -3,22 +3,78 @@ package storage.dao.mysql;
 import storage.bean.Score;
 import storage.dao.DAO;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ScoreDAO extends DAO <Score> {
+public class ScoreDAO extends DAO<Score> {
     @Override
     public Score get(Score score) {
-        return null;
+        Score scoreNew = new Score();
+        try {
+            ResultSet result = this.connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Score WHERE level_id = " + score.getLevel());
+            if (result.first())
+                scoreNew.setLevel(result.getLong("level_id"));
+            scoreNew.setScore(result.getInt("score"));
+            scoreNew.setUsername(result.getLong("user_id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return scoreNew;
     }
 
     @Override
     public Score create(Score object) {
-        return null;
+        Score score;
+        try {
+            score = new Score();
+            PreparedStatement prepare = this.connection
+                    .prepareStatement(
+                            "INSERT INTO Score(level_id, user_id, score) VALUES (?,?,?)"
+                    );
+
+            prepare.setLong(1, object.getLevel());
+            prepare.setLong(2, object.getUsername());
+            prepare.setLong(3, object.getScore());
+
+            score.setLevel(object.getLevel());
+            score.setUsername(object.getUsername());
+            score.setScore(object.getScore());
+
+            prepare.execute();
+
+            return score;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public Score update(Score object) {
-        return null;
+        try {
+            this.connection
+                    .createStatement(
+                            ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_UPDATABLE
+                    ).executeUpdate(
+                    "UPDATE Score SET level_id="
+                            + object.getLevel()
+                            + ",user_id="
+                            + object.getUsername()
+                            // + ",rank="
+                            // + object.getScore()
+                            + ",score="
+                            + object.getScore()
+                            + " WHERE 1"
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
     @Override
