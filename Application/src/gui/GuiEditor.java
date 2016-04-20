@@ -68,8 +68,6 @@ public class GuiEditor  extends JFrame{
 
     private GuiEditor itself;
 
-    private AElement elmtToSubmit = new Vide();
-
     public GuiEditor(String path){
         this.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         this.setLocationRelativeTo(null);

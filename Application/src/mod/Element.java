@@ -50,7 +50,7 @@ public abstract class Element extends Observable {
     }
 
     public boolean move(Input.State input, boolean pushing){
-        System.out.println(map[currentpos.getX()][currentpos.getY()]);
+        //System.out.println(map[currentpos.getX()][currentpos.getY()]);
         switch (input){
             case DOWN:
                 if(map[currentpos.getX()][currentpos.getY()+1] != '#')

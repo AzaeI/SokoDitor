@@ -54,7 +54,6 @@ public class GuiMap extends JComponent implements java.util.Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("Map Mis a jour");
         repaint();
     }
 
@@ -85,7 +84,6 @@ public class GuiMap extends JComponent implements java.util.Observer{
                 }
             }
         }
-        System.out.println("Map dessinée");
     }
 
     @Override protected void paintComponent(Graphics g){

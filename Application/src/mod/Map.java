@@ -88,7 +88,7 @@ public class Map extends Observable implements IMap {
                 }
             }
 //            CreateObjectMap();
-            tostring();
+            //tostring();
 //            PrintMap();
         }
         catch (final ParserConfigurationException e) {
