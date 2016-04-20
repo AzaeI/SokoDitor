@@ -24,6 +24,9 @@ public class GuiChoiceElmt extends JFrame {
     public boolean hasBeenSelected = false;
 
     protected GuiChoiceElmt(GuiEditor g, ButtonEdit buttonEdit) {
+        if (GuiEditor.getOldChoiceElmt() != null) GuiEditor.getOldChoiceElmt().dispose();
+        GuiEditor.setOldChoiceElmt(this);
+
         nbSprite = g.getNameSprite().size();
         nameSpriteEdit = g.getNameSpriteEdit();
         itself = this;
@@ -72,7 +75,7 @@ public class GuiChoiceElmt extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     buttonEdit.setElmt(((ButtonEdit) e.getSource()).getElmt());
                     buttonEdit.updateTexture();
-                    itself.dispose();
+                    itself.setVisible(false);
                 }
             });
         }

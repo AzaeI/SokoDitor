@@ -33,6 +33,16 @@ public class GuiEditor  extends JFrame{
 
     private static boolean isaEditorOpen = false;
 
+    private static GuiChoiceElmt oldChoiceElmt;
+
+    public static GuiChoiceElmt getOldChoiceElmt() {
+        return oldChoiceElmt;
+    }
+
+    public static void setOldChoiceElmt(GuiChoiceElmt oldChoiceElmt) {
+        GuiEditor.oldChoiceElmt = oldChoiceElmt;
+    }
+
     private JMenuBar menuBar = new JMenuBar();
     private JMenuItem help = new JMenuItem("Aide");
     private JMenuItem back = new JMenuItem("Retour au menu");
