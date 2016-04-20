@@ -44,22 +44,22 @@ public class GuiChoiceElmt extends JFrame {
             ImageIcon img = new ImageIcon(nameSpriteEdit + "/" + g.getNameSprite().get(i) + ".png");
             switch (g.getNameSprite().get(i)) {
                 case "BoxKO":
-                    //a = new ButtonEdit(new Box(), g.getNameSprite().get(i));
+                    a = new ButtonEdit('$', g.getNameSprite().get(i));
                     break;
                 case "Chara":
-                    //a = new ButtonEdit(new Character(), g.getNameSprite().get(i));
+                    a = new ButtonEdit('@', g.getNameSprite().get(i));
                     break;
                 case "Goal":
-                    a = new ButtonEdit(new Goal(), g.getNameSprite().get(i));
+                    a = new ButtonEdit('.', g.getNameSprite().get(i));
                     break;
                 case "Ground":
-                    a = new ButtonEdit(new Floor(), g.getNameSprite().get(i));
+                    a = new ButtonEdit(',', g.getNameSprite().get(i));
                     break;
                 case "Vide":
-                    a = new ButtonEdit(new Vide(), g.getNameSprite().get(i));
+                    a = new ButtonEdit(';', g.getNameSprite().get(i));
                     break;
                 case "Wall":
-                    a = new ButtonEdit(new Wall(), g.getNameSprite().get(i));
+                    a = new ButtonEdit('#', g.getNameSprite().get(i));
                     break;
             }
             JPanel b = new JPanel();
