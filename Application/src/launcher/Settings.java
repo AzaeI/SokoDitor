@@ -202,7 +202,6 @@ public class Settings extends JPanel {
         System.out.println("Fichier choisi : " + fileChooser.getSelectedFile());
         File file = fileChooser.getSelectedFile();
 
-
         try {
             bimg = ImageIO.read(file);
         } catch (IOException e) {
