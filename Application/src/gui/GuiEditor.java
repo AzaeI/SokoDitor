@@ -234,6 +234,8 @@ public class GuiEditor  extends JFrame{
 
 
                     boolean haveAnChar = false;
+                    int nbBox = 0;
+                    int nbGoal = 0;
                     for (int i = 0; i < hauteur; i++){
                         Element LCourrant = document.createElement("L"+(i+1));
                         for (int j = 0; j < largeur; j++){
@@ -244,6 +246,7 @@ public class GuiEditor  extends JFrame{
                                     break;
                                 case '$' :
                                     ligneLv+= '$';
+                                    nbBox++;
                                     break;
                                 case '@':
                                     if (!haveAnChar){
@@ -260,6 +263,7 @@ public class GuiEditor  extends JFrame{
                                     break;
                                 case '.' :
                                     ligneLv+= '.';
+                                    nbGoal++;
                                     break;
                                 case '#' :
                                     ligneLv+= '#';
@@ -271,6 +275,14 @@ public class GuiEditor  extends JFrame{
                     }
                     if (!haveAnChar){
                         showMessageDialog(null, "Il dois y avoir au moins un personnage...");
+                        return;
+                    }
+                    if (nbBox == 0 || nbGoal == 0){
+                        showMessageDialog(null, "Il dois au moins avoir une caisse.");
+                        return;
+                    }
+                    if (nbBox != nbGoal) {
+                        showMessageDialog(null, "Il dois y avoir autant de caisse que de but.");
                         return;
                     }
 
