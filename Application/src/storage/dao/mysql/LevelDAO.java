@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 public class LevelDAO extends DAO<Level>{
 
@@ -18,22 +20,22 @@ public class LevelDAO extends DAO<Level>{
     public Level get(Level level) {
 
         try {
+
+            System.out.println(level.getName());
             ResultSet result;
             result = this.connection.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT level_id, name, user_id, rank, is_genuine, file FROM Level ");
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT level_id, name, user_id, rank, is_genuine, file FROM Level WHERE name = '"+level.getName()+"'");
 
 
             if (result.first()){
-                level.setFile(null);
                 level.setId(result.getLong(1));
-                level.setUser(result.getString(3));
+                level.setUser(result.getLong(3));
                 level.setName(result.getString(2));
                 level.setRank(result.getInt(4));
                 level.setIs_genuine(result.getBoolean(5));
                 level.setFile(result.getBlob(6).getBinaryStream());
             }
-
             return level;
 
         } catch (SQLException e) {
@@ -44,20 +46,19 @@ public class LevelDAO extends DAO<Level>{
 
     @Override
     public Level create(Level object) {
-        Level user;
         try {
-            user  = new Level();
             PreparedStatement prepare = this.connection
                     .prepareStatement(
-                            "INSERT INTO Level (name, user_id) VALUES(?, ?)"
+                            "INSERT INTO Level (name, user_id, file, rank, is_genuine) VALUES(?, ?, ?, ?, ?)"
                     );
-            /*prepare.setString(1, object.getUsername());
-            prepare.setString(2, object.getPassword());
-            user.setUsername(object.getUsername());
-            user.setPassword(object.getPassword());
+            prepare.setString(1, object.getName());
+            prepare.setLong(2, object.getUser());
+            prepare.setBinaryStream(3, object.getFile());
+            prepare.setLong(4, 0);
+            prepare.setBoolean(5, true);
+
             prepare.execute();
-            user = get(user.getUsername());*/
-            return user;
+            return object;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -77,22 +78,17 @@ public class LevelDAO extends DAO<Level>{
             levels = new ArrayList<>();
             level = new Level();
             ResultSet result;
-            if (object.getUser() == null){
-                result = this.connection.createStatement(
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT level_id, name, user_id, rank, is_genuine FROM Level ");
-            }
-            else{
-                result = this.connection.createStatement(
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT level_id, name, user_id, rank, is_genuine FROM Level WHERE user_id = '" + object.getUser()+"'");
-            }
+
+            result = this.connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT level_id, name, user_id, rank, is_genuine FROM Level");
+
 
 
             while (result.next()){
                 level.setFile(null);
                 level.setId(result.getLong(1));
-                level.setUser(result.getString(3));
+                level.setUser(result.getLong(3));
                 level.setName(result.getString(2));
                 level.setRank(result.getInt(4));
                 level.setIs_genuine(result.getBoolean(5));

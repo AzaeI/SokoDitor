@@ -1,5 +1,7 @@
 package launcher;
 
+import storage.bean.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import static launcher.ComponentSettings.*;
 public class MainFrame extends JFrame {
 
     private static boolean isConnected = false;
+    private static User user = null;
+
     private static JPanel cards = new JPanel(new CardLayout());
 
     public MainFrame() throws IOException {
@@ -43,5 +47,12 @@ public class MainFrame extends JFrame {
         isConnected = !isConnected;
     }
 
+
+    public static User getUser() {
+        return user;
+    }
+    public static void setUser(User u) {
+        user = u;
+    }
 
 }

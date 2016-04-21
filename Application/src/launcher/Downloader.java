@@ -1,31 +1,81 @@
 package launcher;
 
 
+import storage.bean.Level;
+import storage.bean.User;
+import storage.dao.DAO;
+import storage.dao.factory.DAOFactory;
+import storage.dao.factory.FactoryType;
+
+import javax.imageio.stream.FileImageInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.ArrayList;
 
 class Downloader extends JPanel {
 
     Downloader(JPanel cards) {
 
-        String map[] = {"2","22","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5"};
-        String createur[] = {"7","72","73","74","75","7","72","73","74","75","7","72","73","74","75","7","72","73","74","75","7","72","73","74","75","7","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5"};
-        String score[] = {"2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25"};
+        ArrayList<String> map = new ArrayList<>();
+        ArrayList<String> user = new ArrayList<>();
+        ArrayList<Integer> score = new ArrayList<>();
+        ArrayList<JButton> download = new ArrayList<>();
+        ArrayList<Level> levels = DAOFactory.getFactory(FactoryType.MYSQL_DAO).getLevelDAO().list(new Level());
+        User u = new User();
+        int i = 0;
+        for(Level l : levels){
+            map.add(l.getName());
+            u.setId(l.getUser());
+            user.add(DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(u).getUsername());
+            score.add(l.getRank());
+            download.add(new JButton("Download"));
+            download.get(i).addActionListener(new ActionListener() {
 
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    Level level = DAOFactory.getFactory(FactoryType.MYSQL_DAO).getLevelDAO().get(l);
+                    OutputStream outStream;
+                    File file;
+                    try {
+                        if(level == null)
+                            throw new Exception();
+
+                         file = new File("Levels/"+level.getName());
+
+                        // if file doesnt exists, then create it
+                        if (!file.exists()) {
+                            file.createNewFile();
+                        }
+                        byte[] buffer = new byte[level.getFile().available()];
+                        level.getFile().read(buffer);
+
+                        outStream = new FileOutputStream(file);
+                        outStream.write(buffer);
+
+                        outStream.close();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            });
+            i++;
+        }
         Container listCont = new Container();
         JPanel listPane = new JPanel();
 
         JScrollPane scrollPane = new JScrollPane();
 
-        listCont.setLayout(new GridLayout(map.length,4));
+        listCont.setLayout(new GridLayout(map.size(),4));
 
-        for(int i=0; i<map.length; i++){
-            listCont.add(new JLabel(map[i]));
-            listCont.add(new JLabel(createur[i]));
-            listCont.add(new JLabel(score[i]));
-            listCont.add(new JButton("Download"));
+        for(int k=0; k<map.size(); k++){
+            listCont.add(new JLabel(map.get(k)));
+            listCont.add(new JLabel(user.get(k)));
+            listCont.add(new JLabel(String.valueOf(score.get(k))));
+            listCont.add(download.get(k));
         }
 
         scrollPane.setViewportView(listCont);
@@ -55,32 +105,9 @@ class Downloader extends JPanel {
         CardLayout cl = (CardLayout) cards.getLayout();
 
         //Initialisation des boutons
-        JButton returnButton = new JButton(ComponentSettings.RETURN_BUTTON_TEXT);
-        JButton refreshButton = new JButton(ComponentSettings.REFRESH_BUTTON_TEXT);
+        JButton returnButton = new JButton();
+        ComponentSettings.initializeBackButton(returnButton);
 
-        //Tableau contenant tous les boutons
-        JButton buttons[] = {returnButton, refreshButton};
-
-        //Coloration et insertion des boutons dans la grille
-        for (JButton button : buttons) {
-            button.setForeground(ComponentSettings.BUTTON_BACKGROUND_COLOR);
-            button.setPreferredSize(new Dimension(500, 100));
-            button.setFont(ComponentSettings.FONT);
-            button.setHorizontalTextPosition(SwingConstants.LEFT);
-            button.setHorizontalAlignment(SwingConstants.LEFT);
-            button.setBorderPainted(false);
-            button.setFocusPainted(false);
-            button.setContentAreaFilled(false);
-            button.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    button.setForeground(ComponentSettings.FOREGROUND_COLOR);
-                }
-
-                public void mouseExited(java.awt.event.MouseEvent evt) {
-                    button.setForeground(ComponentSettings.BUTTON_BACKGROUND_COLOR);
-                }
-            });
-        }
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -95,16 +122,8 @@ class Downloader extends JPanel {
         gbc.gridwidth = 1;
         this.add(returnButton, gbc);
 
-        gbc.gridy = 1;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        this.add(refreshButton, gbc);
 
-        gbc.gridy = 2;
-        //La taille en hauteur et en largeur
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
+        gbc.gridy = 1;
         this.add(listPane, gbc);
 
 
@@ -113,12 +132,6 @@ class Downloader extends JPanel {
 
         //Actions Listeners
         returnButton.addActionListener(e -> cl.show(cards, ComponentSettings.MENU_TITLE));
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
 
         this.setVisible(true);
     }

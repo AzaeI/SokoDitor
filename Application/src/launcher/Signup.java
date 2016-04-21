@@ -4,6 +4,7 @@ import storage.bean.RecoveryQuestion;
 import storage.bean.User;
 import storage.dao.factory.DAOFactory;
 import storage.dao.factory.FactoryType;
+import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -214,8 +215,10 @@ public class Signup extends JPanel{
                                                 System.out.print("CRASH");
                                             } else {
                                                 DAOFactory.getFactory(FactoryType.MYSQL_DAO).getRecoveryQuestionDAO().commit();
-                                                if(!MainFrame.isConnected())
+                                                if(!MainFrame.isConnected()) {
                                                     MainFrame.setConnected();
+                                                    MainFrame.setUser(u);
+                                                }
                                                 cl.show(cards, ComponentSettings.MENU_TITLE);
                                             }
                                         }

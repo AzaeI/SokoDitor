@@ -1,7 +1,10 @@
 package storage.dao.mysql;
 
+import storage.bean.Level;
 import storage.bean.Score;
 import storage.dao.DAO;
+import storage.dao.factory.DAOFactory;
+import storage.dao.factory.FactoryType;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +21,7 @@ public class ScoreDAO extends DAO<Score> {
                     ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Score WHERE level_id = " + score.getLevel());
             if (result.first())
                 scoreNew.setLevel(result.getLong("level_id"));
-            scoreNew.setScore(result.getInt("score"));
+            scoreNew.setScore(result.getFloat("score"));
             scoreNew.setUsername(result.getLong("user_id"));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,7 +41,7 @@ public class ScoreDAO extends DAO<Score> {
 
             prepare.setLong(1, object.getLevel());
             prepare.setLong(2, object.getUsername());
-            prepare.setLong(3, object.getScore());
+            prepare.setFloat(3, object.getScore());
 
             score.setLevel(object.getLevel());
             score.setUsername(object.getUsername());
@@ -79,7 +82,24 @@ public class ScoreDAO extends DAO<Score> {
 
     @Override
     public ArrayList<Score> list(Score object) {
-        return null;
+        ArrayList<Score> scores = new ArrayList<>();
+        try {
+            ResultSet result = this.connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT score FROM Score WHERE level_id = " + object.getLevel() + " ORDER BY score DESC ");
+
+            while (result.next()){
+                Score scoreNew = new Score();
+                scoreNew.setLevel(object.getLevel());
+                scoreNew.setScore(result.getFloat(1));
+                scores.add(scoreNew);
+            }
+
+            return scores;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

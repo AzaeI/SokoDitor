@@ -8,7 +8,7 @@ import java.io.InputStream;
 public class Level {
     private long id;
     private String name;
-    private String user;
+    private long user;
     private InputStream file;
     private int rank;
     private boolean is_genuine;
@@ -29,11 +29,11 @@ public class Level {
         this.name = name;
     }
 
-    public String getUser() {
+    public long getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(long user) {
         this.user = user;
     }
 

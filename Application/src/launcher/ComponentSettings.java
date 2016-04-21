@@ -68,6 +68,35 @@ public class ComponentSettings {
         }
         return button;
     }
+
+    private static Image UPLOAD_IMAGE = setImage("MenuSprites/upload.jpg");
+
+    public static JButton initializeUploadButton(JButton button){
+
+        initializeDefaultButton(button);
+        if (ComponentSettings.UPLOAD_IMAGE == null){
+            button.setText("upload");
+        }
+        else {
+            ImageIcon icon = new ImageIcon(
+                    ComponentSettings.UPLOAD_IMAGE.getScaledInstance(
+                            30,
+                            30,
+                            Image.SCALE_AREA_AVERAGING
+                    )
+            );
+
+            button.setPreferredSize(
+                    new Dimension(
+                            icon.getIconWidth(),
+                            icon.getIconHeight()
+                    )
+            );
+            button.setIcon(icon);
+        }
+        return button;
+    }
+
     private static Image setImage(String name){
         return new ImageIcon("Sprites/"+name).getImage();
     }

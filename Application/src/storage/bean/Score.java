@@ -4,7 +4,7 @@ public class Score {
 
     private long user_id;
     private long level_id;
-    private int score;
+    private float score;
 
     public long getUsername() {
         return user_id;
@@ -22,11 +22,11 @@ public class Score {
         this.level_id = level_id;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 }

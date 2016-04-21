@@ -104,14 +104,15 @@ public class Login extends JPanel {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                login(usernameField.getText(), String.valueOf(passwordField.getPassword()));
+                if (login(usernameField.getText(), String.valueOf(passwordField.getPassword())))
+                    cl.show(cards, ComponentSettings.MENU_TITLE);
             }
         });
 
         this.setVisible(true);
     }
 
-    private void login(String username, String password){
+    private boolean login(String username, String password){
         if(username.length() >= 6 && username.length() <= 16 && isAlphanum(username)){
             if (password.length() >= 6 && password.length() <= 16){
 
@@ -139,6 +140,8 @@ public class Login extends JPanel {
                     if(user.getPassword().equals(hashString.toString())){
                         if(!MainFrame.isConnected())
                             MainFrame.setConnected();
+                            MainFrame.setUser(user);
+                        return true;
                     }
                     else {
                         erreur(passwordField);
@@ -171,6 +174,7 @@ public class Login extends JPanel {
                 }
             });
         }
+        return false;
     }
 
     private void erreur(JTextField field){
