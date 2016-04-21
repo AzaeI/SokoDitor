@@ -30,102 +30,114 @@ public class ModifyMap extends JPanel {
 
     String[] levelNameList = new File("Levels").list();
     JButton uploaders[] = new JButton[levelNameList.length];
+    JButton buttonReturn = new JButton();
+
+    JButton uploader;
     public ModifyMap(JPanel cards) {
 
         CardLayout cl = (CardLayout) cards.getLayout();
 
-        JButton buttonReturn = new JButton();
 
-        JButton uploader;
-
-
-        for(int i = 0; i < uploaders.length; i++){
-            uploader = new JButton();
-            uploader.setName(levelNameList[i]);
-            initializeUploadButton(uploader);
-            uploader.setVisible(false);
-            uploaders[i] = (uploader);
-        }
-
-        ArrayList<JButton> maps = new ArrayList<>(levelNameList.length);
-        ComponentSettings.initializeBackButton(buttonReturn);
-        ComponentSettings.initializeDefaultButton(buttonPrec);
-        ComponentSettings.initializeDefaultButton(buttonSuiv);
-
-        int k = 0;
-        for(int i = 0; i < levelNameList.length; i++) {
-            if (levelNameList[i].endsWith(".xml")) {
-                maps.add(new JButton(levelNameList[i].substring(0, levelNameList[i].length() - 4)));
-                maps.get(k).addActionListener(e -> new GuiEditor(((JButton)e.getSource()).getText()));
-                k++;
-
-            }
-        }
-
-        for (JButton button : maps) {
-            ComponentSettings.initializeDefaultButton(button);
-        }
-
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-
-        gbc.anchor = GridBagConstraints.WEST;
-        int j=0;
-        this.add(buttonReturn, gbc);
-        j++;
-        gbc.gridy = j;
-        buttonPrec.setVisible(false);
-        this.add(buttonPrec, gbc);
-        j++;
-        for (int i=0; i<maps.size(); i++) {
-            gbc.gridy = j;
-            gbc.anchor = GridBagConstraints.WEST;
-            this.add(maps.get(i), gbc);
-            gbc.anchor = GridBagConstraints.EAST;
-            this.add(uploaders[i], gbc);
-            j++;
-        }
-
-        gbc.gridy = j;
-        this.add(buttonSuiv, gbc);
-        if(maps.size() < 5)
-            buttonSuiv.setVisible(false);
-
-        this.setBackground(ComponentSettings.MENU_BACKGROUND);
-
-        buttonReturn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cl.show(cards, ComponentSettings.EDITOR_TITLE);
-            }
-        });
-
-        buttonPrec.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                affiche -= 4;
-                suivant--;
-                display_options(maps);
-            }
-        });
-
-        buttonSuiv.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                affiche += 4;
-                suivant++;
-                display_options(maps);
-            }
-        });
-
-        display_options(maps);
 
         this.addPropertyChangeListener(evt -> {
 
             if(evt.getPropertyName().equals("visible") && evt.getNewValue().equals(true)){
+                suivant = 0;
+                affiche = 0;
+                for(Component c : this.getComponents()){
+                    if(c instanceof JButton)
+                        this.remove(c);
+                }
+                uploader = new JButton();
+                buttonPrec = new JButton("Maps Precedentes");
+                buttonSuiv = new JButton("Maps Suivantes");
+
+                levelNameList = new File("Levels").list();
+                uploaders = new JButton[levelNameList.length];
+
+                for(int i = 0; i < uploaders.length; i++){
+                    uploader = new JButton();
+                    uploader.setName(levelNameList[i]);
+                    initializeUploadButton(uploader);
+                    uploader.setVisible(false);
+                    uploaders[i] = (uploader);
+                }
+
+                ArrayList<JButton> maps = new ArrayList<>(levelNameList.length);
+                ComponentSettings.initializeBackButton(buttonReturn);
+                ComponentSettings.initializeDefaultButton(buttonPrec);
+                ComponentSettings.initializeDefaultButton(buttonSuiv);
+
+                int k = 0;
+                for(int i = 0; i < levelNameList.length; i++) {
+                    if (levelNameList[i].endsWith(".xml")) {
+                        maps.add(new JButton(levelNameList[i].substring(0, levelNameList[i].length() - 4)));
+                        maps.get(k).addActionListener(e -> new GuiEditor(((JButton)e.getSource()).getText()));
+                        k++;
+
+                    }
+                }
+
+                for (JButton button : maps) {
+                    ComponentSettings.initializeDefaultButton(button);
+                }
+
+                this.setLayout(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+
+                gbc.gridheight = 1;
+                gbc.gridwidth = 1;
+
+                gbc.anchor = GridBagConstraints.WEST;
+                int j=0;
+                this.add(buttonReturn, gbc);
+                j++;
+                gbc.gridy = j;
+                buttonPrec.setVisible(false);
+                this.add(buttonPrec, gbc);
+                j++;
+                for (int i=0; i<maps.size(); i++) {
+                    gbc.gridy = j;
+                    gbc.anchor = GridBagConstraints.WEST;
+                    this.add(maps.get(i), gbc);
+                    gbc.anchor = GridBagConstraints.EAST;
+                    this.add(uploaders[i], gbc);
+                    j++;
+                }
+
+                gbc.gridy = j;
+                this.add(buttonSuiv, gbc);
+                if(maps.size() < 5)
+                    buttonSuiv.setVisible(false);
+
+                this.setBackground(ComponentSettings.MENU_BACKGROUND);
+
+                buttonReturn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cl.show(cards, ComponentSettings.EDITOR_TITLE);
+                    }
+                });
+
+                buttonPrec.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        affiche -= 4;
+                        suivant--;
+                        display_options(maps);
+                    }
+                });
+
+                buttonSuiv.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        affiche += 4;
+                        suivant++;
+                        display_options(maps);
+                    }
+                });
+
+                display_options(maps);
                 if(MainFrame.isConnected()){
 
                     for(int i = 0; i < uploaders.length; i++){
@@ -179,7 +191,7 @@ public class ModifyMap extends JPanel {
         firePropertyChange("visible", visible, b);
     }
 
-    void display_options(ArrayList<JButton> yohanLeNoob) { //Nom de variable plus parlant que "options" dans ce contexte
+    void display_options(ArrayList<JButton> yohanLeNoob) { //Ou canlay Nom de variable plus parlant que "options" dans ce contexte
         for (int i = 0; i< yohanLeNoob.size(); i++) {
             yohanLeNoob.get(i).setVisible(false);
             uploaders[i].setVisible(false);
