@@ -23,4 +23,5 @@ public interface IGame {
     public void setCharacter(Character c);
     public boolean getState();
     public void addObserver(Observer obs);
+    public String getName();
 }

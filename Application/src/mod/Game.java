@@ -69,4 +69,8 @@ public class Game extends Observable implements IGame {
         character.reset();
         setChanged();notifyObservers();
     }
+
+    public String getName(){
+        return map.getTitle();
+    }
 }

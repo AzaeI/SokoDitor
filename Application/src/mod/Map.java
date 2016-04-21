@@ -88,7 +88,7 @@ public class Map extends Observable implements IMap {
                 }
             }
 //            CreateObjectMap();
-            //tostring();
+//            tostring();
 //            PrintMap();
         }
         catch (final ParserConfigurationException e) {
@@ -170,5 +170,9 @@ public class Map extends Observable implements IMap {
 //            System.out.println("Box : "+ p.getX()+ " : "+ p.getY());
         }
         return boxStart;
+    }
+
+    public String getTitle(){
+        return title;
     }
 }
