@@ -1,6 +1,7 @@
 package launcher;
 
 
+import storage.bean.Feedback;
 import storage.bean.Level;
 import storage.bean.User;
 import storage.dao.DAO;
@@ -18,11 +19,16 @@ import java.util.ArrayList;
 class Downloader extends JPanel {
 
     Downloader(JPanel cards) {
+        
 
         ArrayList<String> map = new ArrayList<>();
         ArrayList<String> user = new ArrayList<>();
         ArrayList<Integer> score = new ArrayList<>();
         ArrayList<JButton> download = new ArrayList<>();
+
+        ArrayList<JButton> rating = new ArrayList<>();
+        ArrayList<JButton> feedback = new ArrayList<>();
+
         ArrayList<Level> levels = DAOFactory.getFactory(FactoryType.MYSQL_DAO).getLevelDAO().list(new Level());
         User u = new User();
         int i = 0;
@@ -31,6 +37,18 @@ class Downloader extends JPanel {
             u.setId(l.getUser());
             user.add(DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(u).getUsername());
             score.add(l.getRank());
+
+            if(MainFrame.isConnected()){
+                rating.add(new JButton("Votre avis"));
+                rating.get(i).addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
+            }
+
+            feedback.add(new JButton("avis"));
             download.add(new JButton("Download"));
             download.get(i).addActionListener(new ActionListener() {
 
