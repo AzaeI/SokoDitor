@@ -319,6 +319,7 @@ public class GuiEditor  extends JFrame{
                     transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
                     transformer.transform(source, sortie);
+                    isaEditorOpen = false;
                     itself.dispose();
                 } catch (ParserConfigurationException e1) {
                     e1.printStackTrace();
@@ -337,15 +338,16 @@ public class GuiEditor  extends JFrame{
         });
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                isaEditorOpen = false;
                 setVisible(false);
                 dispatchEvent(new WindowEvent(itself, WindowEvent.WINDOW_CLOSING));
             }
         });
     }
-
     private void initPannelEditionParama(){
         Paramedit.setLayout(new GridLayout(4,0));
 
