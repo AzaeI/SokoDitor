@@ -10,6 +10,48 @@ class Downloader extends JPanel {
 
     Downloader(JPanel cards) {
 
+        String map[] = {"2","22","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5"};
+        String createur[] = {"7","72","73","74","75","7","72","73","74","75","7","72","73","74","75","7","72","73","74","75","7","72","73","74","75","7","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5","lol","lol2","lol3","lol4","lol5"};
+        String score[] = {"2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25","2","22","23","24","25"};
+
+        Container listCont = new Container();
+        JPanel listPane = new JPanel();
+
+        JScrollPane scrollPane = new JScrollPane();
+
+        listCont.setLayout(new GridLayout(map.length,4));
+
+        for(int i=0; i<map.length; i++){
+            listCont.add(new JLabel(map[i]));
+            listCont.add(new JLabel(createur[i]));
+            listCont.add(new JLabel(score[i]));
+            listCont.add(new JButton("Download"));
+        }
+
+        scrollPane.setViewportView(listCont);
+
+        JPanel title = new JPanel(new GridLayout());
+        title.add(new JLabel("Titre"));
+        title.add(new JLabel("Créateur"));
+        title.add(new JLabel("Score"));
+        title.add(new JLabel("Down")); // à remplacer par une image
+
+        scrollPane.setPreferredSize(new Dimension(300,300));
+
+        listPane.setLayout(new GridBagLayout());
+        GridBagConstraints listgbc = new GridBagConstraints();
+
+        listgbc.gridy = 0;
+        listgbc.gridheight = 1;
+        listgbc.gridwidth = 1;
+        listPane.add(title, listgbc);
+
+        listgbc.gridy = 1;
+        listgbc.gridheight = 1;
+        listgbc.gridwidth = 1;
+        listPane.add(scrollPane, listgbc);
+
+
         CardLayout cl = (CardLayout) cards.getLayout();
 
         //Initialisation des boutons
@@ -58,6 +100,13 @@ class Downloader extends JPanel {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         this.add(refreshButton, gbc);
+
+        gbc.gridy = 2;
+        //La taille en hauteur et en largeur
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        this.add(listPane, gbc);
+
 
         //Coloration du fond du Menu
         this.setBackground(ComponentSettings.MENU_BACKGROUND);
