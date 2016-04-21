@@ -6,8 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import static launcher.ComponentSettings.MENU_BUTTON_TEXT;
 
@@ -132,7 +131,90 @@ public class Settings extends JPanel {
         buttonReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                File FileIn =  new File("Sprites/SpriteDefault/Wall.png");
+                File FileOut = new File("Sprites/Wall.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(FileIn);
+                    FileOutputStream output = new FileOutputStream(FileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                ////
+                FileIn = new File("Sprites/SpriteDefault/BoxKO.png");
+                FileOut = new File("Sprites/BoxKO.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(FileIn);
+                    FileOutputStream output = new FileOutputStream(FileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                //
+                FileIn = new File("Sprites/SpriteDefault/BoxOK.png");
+                FileOut = new File("Sprites/BoxOK.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(FileIn);
+                    FileOutputStream output = new FileOutputStream(FileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                //
+                FileIn = new File("Sprites/SpriteDefault/Goal.png");
+                FileOut = new File("Sprites/Goal.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(FileIn);
+                    FileOutputStream output = new FileOutputStream(FileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                //
+                FileIn = new File("Sprites/SpriteDefault/Ground.png");
+                FileOut = new File("Sprites/Ground.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(FileIn);
+                    FileOutputStream output = new FileOutputStream(FileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -155,36 +237,109 @@ public class Settings extends JPanel {
         buttonTexturesWall.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                get_file();
+                File wallFileIn = get_file();
+                File wallFileOut = new File("Sprites/Wall.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(wallFileIn);
+                    FileOutputStream output = new FileOutputStream(wallFileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+
                 // put the return somewhere usefull
             }
         });
         buttonTexturesCaisse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                get_file();
-                // put the return somewhere usefull
+                File BoxKOFileIn = get_file();
+                File BoxKOFileOut = new File("Sprites/BoxKO.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(BoxKOFileIn);
+                    FileOutputStream output = new FileOutputStream(BoxKOFileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         buttonTexturesCaisseOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                get_file();
-                // put the return somewhere usefull
+                File BoxOKFileIn = get_file();
+                File BoxOKFileOut = new File("Sprites/BoxOK.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(BoxOKFileIn);
+                    FileOutputStream output = new FileOutputStream(BoxOKFileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         buttonTexturesDock.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                get_file();
-                // put the return somewhere usefull
+                File GoalFileIn = get_file();
+                File GoalFileOut = new File("Sprites/Goal.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(GoalFileIn);
+                    FileOutputStream output = new FileOutputStream(GoalFileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         buttonTexturesSol.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                get_file();
-                // put the return somewhere usefull
+                File GroundFileIn = get_file();
+                File GroundFileOut = new File("Sprites/Ground.png");
+
+                try{
+                    FileInputStream input = new FileInputStream(GroundFileIn);
+                    FileOutputStream output = new FileOutputStream(GroundFileOut);
+                    byte[] buf = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buf)) > 0) {
+                        output.write(buf, 0, bytesRead);
+                    }
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }

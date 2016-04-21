@@ -158,7 +158,7 @@ public class ComponentSettings {
     static final String SETTINGS_TEXTURES_CAISSE    = "Texture caisse";
     static final String SETTINGS_TEXTURES_CAISSE_OK = "Texture caisse en place";
     static final String SETTINGS_TEXTURES_PERSO     = "Texture personage";
-    static final String SETTINGS_TEXTURES_DOCK      = "Texture emplacement caisse";
+    static final String SETTINGS_TEXTURES_DOCK      = "Texture but";
     static final String SETTINGS_TEXTURES_SOL       = "Texture sol";
     static final String SETTINGS_TEXTURES_WALL      = "Texture mur";
     static final String SETTINGS_USER               = "Compte utilisateur";
