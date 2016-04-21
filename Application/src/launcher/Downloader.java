@@ -19,7 +19,7 @@ import java.util.ArrayList;
 class Downloader extends JPanel {
 
     Downloader(JPanel cards) {
-        
+
 
         ArrayList<String> map = new ArrayList<>();
         ArrayList<String> user = new ArrayList<>();
@@ -28,17 +28,18 @@ class Downloader extends JPanel {
 
         ArrayList<JButton> rating = new ArrayList<>();
         ArrayList<JButton> feedback = new ArrayList<>();
+        ArrayList<JButton> playerFeedback = new ArrayList<>();
 
         ArrayList<Level> levels = DAOFactory.getFactory(FactoryType.MYSQL_DAO).getLevelDAO().list(new Level());
         User u = new User();
         int i = 0;
-        for(Level l : levels){
+        for (Level l : levels) {
             map.add(l.getName());
             u.setId(l.getUser());
             user.add(DAOFactory.getFactory(FactoryType.MYSQL_DAO).getUserDAO().get(u).getUsername());
             score.add(l.getRank());
 
-            if(MainFrame.isConnected()){
+            if (MainFrame.isConnected()) {
                 rating.add(new JButton("Votre avis"));
                 rating.get(i).addActionListener(new ActionListener() {
                     @Override
@@ -48,7 +49,20 @@ class Downloader extends JPanel {
                 });
             }
 
+
             feedback.add(new JButton("avis"));
+
+            feedback.get(i).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    TextArea feedText = new TextArea();
+                    feedText.setPreferredSize(new Dimension(200, 60));
+                    add(feedText);
+                }
+            });
+
+
+            playerFeedback.add(new JButton("avis des joueurs"));
             download.add(new JButton("Download"));
             download.get(i).addActionListener(new ActionListener() {
 
@@ -59,10 +73,10 @@ class Downloader extends JPanel {
                     OutputStream outStream;
                     File file;
                     try {
-                        if(level == null)
+                        if (level == null)
                             throw new Exception();
 
-                         file = new File("Levels/"+level.getName());
+                        file = new File("Levels/" + level.getName());
 
                         // if file doesnt exists, then create it
                         if (!file.exists()) {
@@ -87,13 +101,16 @@ class Downloader extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane();
 
-        listCont.setLayout(new GridLayout(map.size(),4));
+        listCont.setLayout(new GridLayout(map.size(), 4));
 
-        for(int k=0; k<map.size(); k++){
+        for (int k = 0; k < map.size(); k++) {
             listCont.add(new JLabel(map.get(k)));
             listCont.add(new JLabel(user.get(k)));
             listCont.add(new JLabel(String.valueOf(score.get(k))));
             listCont.add(download.get(k));
+            listCont.add(feedback.get(k));
+            listCont.add(playerFeedback.get(k));
+
         }
 
         scrollPane.setViewportView(listCont);
@@ -103,8 +120,10 @@ class Downloader extends JPanel {
         title.add(new JLabel("Créateur"));
         title.add(new JLabel("Score"));
         title.add(new JLabel("Down")); // à remplacer par une image
+        title.add(new JLabel("Votre Avis")); // à remplacer par une image
+        title.add(new JLabel("Avis des joueur")); // à remplacer par une image
 
-        scrollPane.setPreferredSize(new Dimension(300,300));
+        scrollPane.setPreferredSize(new Dimension(300, 300));
 
         listPane.setLayout(new GridBagLayout());
         GridBagConstraints listgbc = new GridBagConstraints();
@@ -155,7 +174,7 @@ class Downloader extends JPanel {
     }
 
 
-    private void layoutInit(){
+    private void layoutInit() {
 
         JButton b1 = new JButton("Salut");
         b1.setBorderPainted(false);

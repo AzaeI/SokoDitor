@@ -24,4 +24,5 @@ public interface IGame {
     public boolean getState();
     public void addObserver(Observer obs);
     public String getName();
+    public int getScore();
 }

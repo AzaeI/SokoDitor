@@ -21,6 +21,8 @@ public class Game extends Observable implements IGame {
         state = false;
     }
 
+    public int getScore() { return character.getScore();}
+
     public void setCharacter(Character c){
         character = c;
     }

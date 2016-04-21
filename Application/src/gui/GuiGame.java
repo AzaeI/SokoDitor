@@ -160,7 +160,6 @@ public class GuiGame extends JComponent implements Observer {
             endGame.add(time);
             endGame.add(quit);
 
-
             endGame.setVisible(true);
             quit.addActionListener(new ActionListener() {
                 @Override

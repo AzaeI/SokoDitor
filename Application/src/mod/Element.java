@@ -1,5 +1,6 @@
 package mod;
 
+import gui.GuiGame;
 import util.Input;
 import util.Position;
 
@@ -14,6 +15,8 @@ public abstract class Element extends Observable {
 
     //commentaire pour le push
     protected static char[][] map;
+
+
 
     protected Element neighborLeft;
     protected Element neighborRight;
@@ -50,6 +53,7 @@ public abstract class Element extends Observable {
     }
 
     public boolean move(Input.State input, boolean pushing){
+
         //System.out.println(map[currentpos.getX()][currentpos.getY()]);
         switch (input){
             case DOWN:
@@ -104,6 +108,7 @@ public abstract class Element extends Observable {
                 }
                 break;
             case RIGHT:
+
                 if(map[currentpos.getX()+1][currentpos.getY()] != '#')
                 {
                     if(neighborBot == null) {
@@ -121,6 +126,7 @@ public abstract class Element extends Observable {
                 }
                 break;
         }
+
         return false;
     }
 
